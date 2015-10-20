@@ -56,7 +56,7 @@ function getRandomNumber (max, min){
 }
 
 document.getElementById('dodajNovProizvod').addEventListener("click", function () {
-  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber);
+  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber, document.getElementById("categoryName").value, document.getElementById("productName").value);
 });
 
 //Determine what product is in a particular category
@@ -67,12 +67,16 @@ function getData(url) {
 
   var products = getServiceData(url).value;
   var imgPath = takeImage(getRandomNumber(1,4), slike);
-  var catName = takeCategory(products[product].CategoryID, categories);
-  dodajProizvod(imgPath, products[product].UnitPrice, catName, products[product].ProductName);
+  for (var product in products) {
 
+    var catName = takeCategory(products[product].CategoryID, categories);
+    dodajProizvod(imgPath, products[product].UnitPrice, catName, products[product].ProductName);
   }
 
+
+
 }
+
 
 function getAndLoadCategories (url) {
 
