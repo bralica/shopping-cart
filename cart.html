@@ -1,0 +1,173 @@
+<!doctype html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="sr">
+<!--<![endif]-->
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Basic Shopping Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="projektat shopping cart">
+  <meta name="author" content="Vladimir Tesic Tetcha">
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/united.bootstrap-theme.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script> -->
+
+</head>
+
+<!--<body onload="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');">-->
+<body onload="showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+
+  <!--[if IE]>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <!-- Coding Start  -->
+
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavigation" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="container">
+
+        <div class="collapse navbar-collapse" id="mainNavigation">
+
+          <ul class="nav navbar-nav">
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >Kategorije proizvoda <span class="caret"></span></a>
+              <ul class="dropdown-menu" id="categoryNav">
+
+              </ul>
+            </li>
+            <li><a href="#">O Nama</a></li>
+            <li><a href="#">Uslovi kupovine</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+
+        </div>
+
+      </div>
+    </nav>
+    <div class="container">
+      <div id="logo">
+        <img src="images/logo.png" alt="logo">
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <h3>Korpa za kupovinu</h3>
+        <p class="lead" id="reztltat">Ukupna suma: <span id="suma"></span></p>
+      </div>
+
+      <div class="col-md-5">
+        <p id="demo"></p>
+      </div>
+
+      <div id="addButton" class="col-md-2">
+        <!-- Button trigger modal -->
+        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+          NOV PROIZVOD
+        </button>
+        <button class="btn btn-default btn-sm" onclick="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');">
+          UCITAJ PROIZVODE
+        </button>
+      </div>
+
+    </div>
+    <div id="addProduct" class="row">
+
+    </div>
+    <div class="row">
+
+      <!-- Modal -->
+      <div class="modal fade" id="addNewProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Zatvori</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Unesite podatke za nov proizvod</h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <div class="col-md-6">
+                <h2><small>Unesite nov proizvod</small></h2>
+                <form action="#">
+                  <div class="form-group">
+                    <label for="imagePath" class="col-sm-12 control-label">Unesite putanju do slike</label>
+                    <input type="text" id="imagePath" class="form-control" placeholder="images/slika.jpg">
+                  </div>
+                  <div class="form-group">
+                    <label for="productPrice" class="col-sm-12 control-label">Unesite cenu</label>
+                    <input type="number" id="productPrice" class="form-control" placeholder="23500">
+                  </div>
+                  <div class="form-group">
+                    <label for="categoryName" class="col-sm-12 control-label">Odaberite kategoriju proizvoda</label>
+                    <select class="form-control" id="categoryName">
+
+                    </select>
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="button" id="dodajNovProizvod">Dodaj proizvod</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Coding End -->
+
+      <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+
+      <script src="js/jquery-2.1.4.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/cart.js"></script>
+      <!-- <script src="js/main.js"></script> -->
+    </div>
+  </div>
+  <footer id="footer-main" class="container-fluid">
+    <p class="text-center">&copy; 2015 Copyright by Flaton, all rights reserved. </p>
+  </footer>
+
+</body>
+
+</html>
