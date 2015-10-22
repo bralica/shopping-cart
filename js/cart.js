@@ -69,7 +69,7 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function (
 function getData(url) {
 
   var products = getServiceData(url).value;
-  var imgPath = takeImage(getRandomNumber(1,4), slike);
+  var imgPath = takeImage(getRandomInt(1,4), slike);
   for (var product in products) {
 
     var catName = takeCategory(products[product].CategoryID, categories);
@@ -187,14 +187,14 @@ function dodajProizvod(imgPath, productPrice, productName, categoryId ){
   //TODO: dodatak za elemente koji ce prikazivati naziv proizvoda i kategoriju proizvoda
   //TODO: za pocetak p tagovi pa ga ulepsaj
   var prName = document.createElement("p");
-  prName.setAttribute("class", "text-left");
+  prName.setAttribute("class", "product-title");
   prName.innerHTML = productName;
   divColMd3.appendChild(prName);
 
   var categoryName = takeCategory(categoryId, categories);
 
   var catName = document.createElement("p");
-  catName.setAttribute("class", "text-left");
+  catName.setAttribute("class", "text-left category-title");
   catName.innerHTML = categoryName;
   divColMd3.appendChild(catName);
 
