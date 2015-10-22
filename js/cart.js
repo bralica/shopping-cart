@@ -23,7 +23,7 @@ var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwin
 var suma = 0;
 var shoppingCart = [];
 
-function loadData () {
+function loadData (){
   showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
 getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
 
@@ -62,7 +62,7 @@ function getRandomNumber (max, min){
 }
 
 document.getElementById('dodajNovProizvod').addEventListener("click", function () {
-  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber, document.getElementById("categoryName").value, document.getElementById("productName").value);
+  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value)
 });
 
 //LOAD SERVICE DATA
@@ -73,7 +73,8 @@ function getData(url) {
   for (var product in products) {
 
     var catName = takeCategory(products[product].CategoryID, categories);
-    dodajProizvod(imgPath, products[product].UnitPrice, catName, products[product].ProductName);
+
+    dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
   }
 
 
@@ -166,7 +167,7 @@ function getCategoryData (url, username, password) {
   }
 }
 
-function dodajProizvod(imgPath, productPrice, productName, categoryName) {
+function dodajProizvod(imgPath, productPrice, productName, categoryId ){
 
   var divProductRow = document.getElementById('addProduct');
   //var cntProduct = document.getElementsByClassName('priceTag').length;
@@ -189,6 +190,8 @@ function dodajProizvod(imgPath, productPrice, productName, categoryName) {
   prName.setAttribute("class", "text-left");
   prName.innerHTML = productName;
   divColMd3.appendChild(prName);
+
+  var categoryName = takeCategory(categoryId, categories);
 
   var catName = document.createElement("p");
   catName.setAttribute("class", "text-left");
