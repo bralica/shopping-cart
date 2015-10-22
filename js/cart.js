@@ -31,6 +31,7 @@ getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=j
 
 function takeCategory (id, categories) {
   for(var i in categories) {
+
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
     }
