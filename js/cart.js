@@ -19,9 +19,15 @@
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
-var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json');
+var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
 var suma = 0;
 var shoppingCart = [];
+
+function loadData () {
+  showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
+getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
+
+}
 
 function takeCategory (id, categories) {
   for(var i in categories) {
@@ -59,9 +65,6 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function (
   dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber, document.getElementById("categoryName").value, document.getElementById("productName").value);
 });
 
-//Determine what product is in a particular category
-
-
 //LOAD SERVICE DATA
 function getData(url) {
 
@@ -76,7 +79,6 @@ function getData(url) {
 
 
 }
-
 
 function getAndLoadCategories (url) {
 
@@ -163,7 +165,6 @@ function getCategoryData (url, username, password) {
     return err;
   }
 }
-
 
 function dodajProizvod(imgPath, productPrice, productName, categoryName) {
 

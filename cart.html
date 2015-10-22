@@ -14,7 +14,7 @@
   <title>Basic Shopping Card</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="projektat shopping cart">
-  <meta name="author" content="Vladimir Tesic Tetcha">
+  <meta name="author" content="Vladimir Tesic">
 
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -27,7 +27,7 @@
 
 <!--<body onload="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');">-->
 
-<body onload="showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+<body onload="loadData();">
 
   <!--[if IE]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -91,9 +91,11 @@
         <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
           NOV PROIZVOD
         </button>
-        <button class="btn btn-default btn-sm" onclick="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');">
+<!--
+        <button class="btn btn-default btn-sm" onclick="">
           UCITAJ PROIZVODE
         </button>
+-->
       </div>
 
     </div>
