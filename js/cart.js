@@ -69,9 +69,10 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function (
 function getData(url) {
 
   var products = getServiceData(url).value;
-  var imgPath = takeImage(getRandomInt(1,4), slike);
+
   for (var product in products) {
 
+    var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
 
     dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
