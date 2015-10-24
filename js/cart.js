@@ -17,6 +17,11 @@
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
 //TODO: dodajProizvod dobija jos dva argumenta, categoryName, productName
 
+//TODO: search field - full text search
+//example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+//login forma, posebna HTML strana, firstname i lastname employees table
+
+
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
@@ -104,8 +109,10 @@ function getAndLoadCategoriesInMenu (url) {
 
      //var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
+     var categoryId   = categories[category].CategoryID;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
-     output += '<li><a href="#">' + categoryName + '</a></li>';
+     //output += '<li><a href="#">' + categoryName + '</a></li>';
+     output += '<li id="'+ categoryId +'"><a href="#">' + categoryName + '</a></li>';
 
 
   }
@@ -169,7 +176,7 @@ function getCategoryData (url, username, password) {
   }
 }
 
-function dodajProizvod(imgPath, productPrice, productName, categoryId ){
+function dodajProizvod(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
   //var cntProduct = document.getElementsByClassName('priceTag').length;
@@ -379,3 +386,6 @@ function dodaj(element) {
   }
 
 }
+
+//TODO: display categories
+//NOTE: filter za odredjenu kategoriju, dodajProizvod sa kojim parametrima?
