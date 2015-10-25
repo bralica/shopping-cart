@@ -98,6 +98,7 @@ function getAndLoadCategories (url) {
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
      output += '<option value="' + categoryId + '">' + categoryName + '</option>';
   }
+
   return output;
 }
 
@@ -116,6 +117,8 @@ function getAndLoadCategoriesInMenu (url) {
 
 
   }
+  var allCategories = 0;
+  output += '<li><a href="#" data-catId="' + allCategories +'">Svi proizvodi</a></li>';
   return output;
 }
 
