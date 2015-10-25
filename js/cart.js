@@ -66,14 +66,17 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function (
 });
 
 //LOAD SERVICE DATA
-function getData(url) {
+function getData(url, filter) {
 
   var products = getServiceData(url).value;
+
+  //inicijalizuj filter
 
   for (var product in products) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
+    //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
 
     dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
   }
@@ -103,14 +106,16 @@ function getAndLoadCategoriesInMenu (url) {
   var output = "";
   for (var category in categories) {
 
-     //var categoryId   = categories[category].CategoryID;
+     var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
-     output += '<li><a href="#">' + categoryName + '</a></li>';
-
+     output += '<li><a href="#" data-catId="' + categoryId + '">' + categoryName + '</a></li>';
 
   }
+  var allCategories = 0;
+  output += '<li><a href="#" data-catId="' + allCategories +'">Svi proizvodi</a></li>';
   return output;
+
 }
 
 function showCategories (output) {
@@ -182,6 +187,9 @@ function dodajProizvod(imgPath, productPrice, productName, categoryId ){
   else {
     cntProduct = numberOfProducts;
   }
+
+  //TODO: filter by category
+  //TODO: filter by ull text search
 
   var divColMd3 = document.createElement("div");
   divColMd3.setAttribute("class", "col-md-3 col-sm-6");
