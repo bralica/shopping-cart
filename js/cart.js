@@ -87,10 +87,12 @@ function getAndLoadCategories (url) {
   var categories = getCategoryData(url).value;
   var output = "";
   for (var category in categories) {
-     var categoryId   = categories[category].CategoryID;
-     var categoryName = categories[category].CategoryName;
-     //funkcija koja prikazuje kategorije, odnosno kreira select meni
-     output += '<option value="' + categoryId + '">' + categoryName + '</option>';
+
+    var categoryId   = categories[category].CategoryID;
+    var categoryName = categories[category].CategoryName;
+    //funkcija koja prikazuje kategorije, odnosno kreira select meni
+    output += '<option value="' + categoryId + '">' + categoryName + '</option>';
+
   }
   return output;
 }
