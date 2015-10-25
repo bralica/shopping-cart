@@ -113,7 +113,8 @@ function getAndLoadCategoriesInMenu (url) {
      var categoryId   = categories[category].CategoryID;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
      //output += '<li><a href="#">' + categoryName + '</a></li>';
-     output += '<li id="'+ categoryId +'"><a href="#">' + categoryName + '</a></li>';
+     //output += '<li id="'+ categoryId +'"><a href="#">' + categoryName + '</a></li>';
+     output += '<li><a href="#" data-catId="' + categoryId + '">' + categoryName + '</a></li>';
 
 
   }
