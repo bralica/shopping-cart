@@ -83,6 +83,11 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 //LOAD SERVICE DATA
 function getData(url, filter) {
 
+  var divAddProduct = document.getElementById('addProduct');
+  while (divAddProduct.hasChildNodes()){
+    divAddProduct.removeChild(divAddProduct.firstChild);
+  }
+
   var products = getServiceData(url).value;
   for (var product in products) {
 
@@ -99,17 +104,7 @@ function getData(url, filter) {
 
     }
 
-    //if (products[product].CategoryID != filter){
-      //obrisi sve proizvode i prikazi one koji su odabrani
-     // var divAddProduct = document.getElementById('addProduct');
-      //while (divAddProduct.hasChildNodes()){
-       // divAddProduct.removeChild(divAddProduct.firstChild);
-      //}
-    //}
-
   }
-
-
 
 }
 
