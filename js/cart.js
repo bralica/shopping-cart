@@ -7,15 +7,20 @@
 
 // [x]TODO: u formi za dodavanje proizvoda dodati dropdown sa kategorijama; to je novi file sa web service url-a
 // TODO: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
-// TODO: kreirati new branch
+// [x]TODO: kreirati new branch
 // TODO: formatirati cene koje stizu sa servera u citljiv oblik
-// TODO: HTTP pozivom adrese http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json dobija se spisak kategorija proizvoda.
-// TODO: Za svaki proizvod odrediti ime kategorije kojoj pripada prikazati ga uz proizvod.
+// [x]TODO: HTTP pozivom adrese http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json dobija se spisak kategorija proizvoda.
+// [x]TODO: Za svaki proizvod odrediti ime kategorije kojoj pripada prikazati ga uz proizvod.
 // Format kategorija u json file-u:
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
 //Prosiriti funkciju dodajProizvod, da se doda i kategorija proizvoda.
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
-//TODO: dodajProizvod dobija jos dva argumenta, categoryName, productName
+//[x]TODO: dodajProizvod dobija jos dva argumenta, categoryName, productName
+
+//TODO: search field - full text search
+//example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+//login forma, posebna HTML strana, firstname i lastname employees table
+//TODO: onclick, nekako obrisati sve proizvode i prikazati samo iz odabrane kategorije?
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -23,17 +28,20 @@ var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwin
 var suma = 0;
 var shoppingCart = [];
 
-function loadData (){
+var filter = 0;
+function loadData(){
   showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
-getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
-
+  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
 }
 
 function takeCategory (id, categories) {
+
   for(var i in categories) {
+
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
     }
+
   }
 
 }
@@ -41,10 +49,13 @@ function takeCategory (id, categories) {
 function takeImage (id, slike) {
 
   for (var i in slike) {
+
     if(slike[i].id == id) {
       return slike[i].path;
     }
+
   }
+
 }
 
 function getRandomInt(min, max) {
@@ -61,38 +72,63 @@ function getRandomNumber (max, min){
 
 }
 
-document.getElementById('dodajNovProizvod').addEventListener("click", function () {
+document.getElementById('dodajNovProizvod').addEventListener("click", function(){
+
   dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value)
+
 });
 
+
+
 //LOAD SERVICE DATA
-function getData(url) {
+function getData(url, filter) {
 
   var products = getServiceData(url).value;
-
   for (var product in products) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
+    if (filter == undefined || filter == "") {
+       filter = 0;
+       dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+    }
 
-    dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+    if (products[product].CategoryID == filter){
+
+      dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+
+    }
+
+    //if (products[product].CategoryID != filter){
+      //obrisi sve proizvode i prikazi one koji su odabrani
+     // var divAddProduct = document.getElementById('addProduct');
+      //while (divAddProduct.hasChildNodes()){
+       // divAddProduct.removeChild(divAddProduct.firstChild);
+      //}
+    //}
+
   }
 
 
 
 }
 
-function getAndLoadCategories (url) {
+function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
   var output = "";
-  for (var category in categories) {
+
+  for (var category in categories){
+
      var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
      output += '<option value="' + categoryId + '">' + categoryName + '</option>';
+
   }
+
   return output;
+
 }
 
 function getAndLoadCategoriesInMenu (url) {
@@ -103,11 +139,12 @@ function getAndLoadCategoriesInMenu (url) {
 
      //var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
-     //funkcija koja prikazuje kategorije, odnosno kreira select meni
-     output += '<li><a href="#">' + categoryName + '</a></li>';
-
+     var categoryId   = categories[category].CategoryID;
+     output += '<li><a href="#" id="' + categoryId + '"onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + categoryId + ')">' + categoryName + '</a></li>';
 
   }
+  var allCategories = 0;
+  output += '<li><a href="#" id="' + allCategories +'" onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + allCategories + ')">Svi proizvodi</a></li>';
   return output;
 }
 
@@ -116,6 +153,7 @@ function showCategories (output) {
    document.getElementById('categoryName').innerHTML = output;
 
 }
+
 function showCategoriesInMenu (output) {
 
    document.getElementById('categoryNav').innerHTML = output;
@@ -168,7 +206,7 @@ function getCategoryData (url, username, password) {
   }
 }
 
-function dodajProizvod(imgPath, productPrice, productName, categoryId ){
+function dodajProizvod(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
   //var cntProduct = document.getElementsByClassName('priceTag').length;
@@ -261,7 +299,6 @@ function ukloni(element) {
   cena = Number(cena);
   kolicina = Number(kolicina);
 
-
   // FIXME: funkcija ispitaj da li je proizvod u korpi
   // FIXME: funkcija za kreiranje objekta productData
   // [x]FIXME: umesto uklanjanja elementa, ukloni kolicinu
@@ -297,6 +334,7 @@ function ukloni(element) {
   }
 
   for (var j in shoppingCart) {
+
     //ispisi sta je u korpi
     document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
 
@@ -378,3 +416,6 @@ function dodaj(element) {
   }
 
 }
+
+//TODO: display categories
+//NOTE: filter za odredjenu kategoriju, dodajProizvod sa kojim parametrima?
