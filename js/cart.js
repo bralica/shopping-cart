@@ -83,6 +83,7 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 //LOAD SERVICE DATA
 function getData(url, filter) {
 
+  //prvo ukloni sve proizvode
   var divAddProduct = document.getElementById('addProduct');
   while (divAddProduct.hasChildNodes()){
     divAddProduct.removeChild(divAddProduct.firstChild);
