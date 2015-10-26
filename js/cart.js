@@ -78,8 +78,10 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 
 });
 
+document.getElementById('searchField').addEventListener("onkeyup", function(){
+  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
 
-
+});
 //LOAD SERVICE DATA
 function getData(url, filter) {
 
@@ -104,7 +106,15 @@ function getData(url, filter) {
       dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
 
     }
+    if (typeof filter == 'string') {
 
+      alert(document.getElementById('searchField').value);
+      break;
+    //TODO: ukoliko je filter typeof string, tj. ukoliko je stigao sa dogadjaja onkeyup sa search forme
+    //TODO: proveri da li ima match u kategorijama(categories) ili proizvodima products[product]
+    //TODO: ukoliko postoji match prikazi te proizvode, odnosno kreiraj te proizvode
+    //TODO: eventu onkeyup se prosledjuje getData(url, filter)
+    }
   }
 
 }
