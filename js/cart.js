@@ -92,16 +92,20 @@ function getData(url, filter) {
        filter = 0;
        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
-    else if (products[product].CategoryID == filter){
 
-      //obrisi sve proizvode i prikazi one koji su odabrani
-      var divAddProduct = document.getElementById('addProduct');
-      while (divAddProduct.hasChildNodes()){
-        divAddProduct.removeChild(divAddProduct.firstChild);
-        continue;
-      }
+    if (products[product].CategoryID == filter){
+
       dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+
     }
+
+    //if (products[product].CategoryID != filter){
+      //obrisi sve proizvode i prikazi one koji su odabrani
+     // var divAddProduct = document.getElementById('addProduct');
+      //while (divAddProduct.hasChildNodes()){
+       // divAddProduct.removeChild(divAddProduct.firstChild);
+      //}
+    //}
 
   }
 
