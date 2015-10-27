@@ -246,7 +246,7 @@ function dodajProizvod(imgPath, productPrice, productName, categoryId){
   }
 
   var divColMd3 = document.createElement("div");
-  divColMd3.setAttribute("class", "col-md-3 col-sm-6");
+  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
   divProductRow.appendChild(divColMd3);
 
   //TODO: dodatak za elemente koji ce prikazivati naziv proizvoda i kategoriju proizvoda
