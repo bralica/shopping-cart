@@ -1,3 +1,0 @@
-#searchField
-#popups
-div.suggestions
