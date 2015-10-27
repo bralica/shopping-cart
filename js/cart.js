@@ -110,16 +110,15 @@ function getData(url, filter) {
 
       //alert(document.getElementById('searchField').value);
       //break;
-      //TODO: ukoliko je filter typeof string, tj. ukoliko je stigao sa dogadjaja onkeyup sa search forme
-      //TODO: proveri da li ima match u kategorijama(categories) ili proizvodima products[product]
-      //TODO: ukoliko postoji match prikazi te proizvode, odnosno kreiraj te proizvode
-      //TODO: eventu onkeyup se prosledjuje getData(url, filter)
-      //da li string postoji u nizu ojekata proizvod ili  da li string postoji u nizu objekata categories(ovde je potrebna funkcija find category)
+      //[x]TODO: ukoliko je filter typeof string, tj. ukoliko je stigao sa dogadjaja onkeyup sa search forme
+      //[x]TODO: proveri da li ima match u kategorijama(categories) ili proizvodima products[product]
+      //[x]TODO: ukoliko postoji match prikazi te proizvode, odnosno kreiraj te proizvode
+      //[x]TODO: eventu onkeyup se prosledjuje getData(url, filter)
+      //[x]TODO: ukoliko ime proizvoda ili ime kategorije pocinje upisanim karakterima u form, prikazi te proizvode
 
       if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) == 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) == 0) {
-        //prikazi preozvod
-        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
 
+        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
       }
 
     }
