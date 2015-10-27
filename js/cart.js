@@ -116,7 +116,7 @@ function getData(url, filter) {
       //[x]TODO: eventu onkeyup se prosledjuje getData(url, filter)
       //[x]TODO: ukoliko ime proizvoda ili ime kategorije pocinje upisanim karakterima u form, prikazi te proizvode
 
-      if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) == 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) == 0) {
+      if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
 
         dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
       }
