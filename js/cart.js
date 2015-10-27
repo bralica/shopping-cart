@@ -21,6 +21,8 @@
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 //login forma, posebna HTML strana, firstname i lastname employees table
 //TODO: onclick, nekako obrisati sve proizvode i prikazati samo iz odabrane kategorije?
+//TODO: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
+
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -29,9 +31,27 @@ var suma = 0;
 var shoppingCart = [];
 
 var filter = 0;
+
 function loadData(){
   showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
   getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
+}
+
+
+function loginUser (firstname, lastname) {
+
+  var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
+    for (var user in users) {
+
+      if(users[user].FirstName == firstname && users[user].LastName == lastname) {
+        window.location = "cart.js";
+      }
+      else {
+        alert("firstname or lastname are incorect");
+      }
+
+    }
+
 }
 
 function takeCategory (id, categories) {
@@ -96,6 +116,7 @@ function getData(url, filter) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
+
     if (filter == undefined || filter == "") {
        filter = 0;
        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
@@ -442,6 +463,7 @@ function dodaj(element) {
   }
 
 }
+
 
 //TODO: display categories
 //NOTE: filter za odredjenu kategoriju, dodajProizvod sa kojim parametrima?
