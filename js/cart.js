@@ -37,23 +37,6 @@ function loadData(){
   getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
 }
 
-
-function loginUser (firstname, lastname) {
-
-  var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
-    for (var user in users) {
-
-      if(users[user].FirstName == firstname && users[user].LastName == lastname) {
-        window.location = "cart.js";
-      }
-      else {
-        alert("firstname or lastname are incorect");
-      }
-
-    }
-
-}
-
 function takeCategory (id, categories) {
 
   for(var i in categories) {
@@ -98,10 +81,10 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 
 });
 
-document.getElementById('searchField').addEventListener("onkeyup", function(){
-  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
+//document.getElementById('searchField').addEventListener("onkeyup", function(){
+//  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
+//});
 
-});
 //LOAD SERVICE DATA
 function getData(url, filter) {
 
