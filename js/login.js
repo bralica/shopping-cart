@@ -1,7 +1,7 @@
 function redirect () {
   //var currentPath = window.location.pathname;
   //window.location.href = "file:///C:/Users/bralica/PROJECTS/project-shopping-cart-github/cart.html";
-  self.location = "cart.html";
+  window.location.href = "cart.html";
 }
 
 function loginUser (firstname, lastname) {
@@ -16,8 +16,8 @@ function loginUser (firstname, lastname) {
       }
     }
   if (valid) {
-    //redirect();
-    self.location = 'cart.html';
+    redirect();
+    //self.location = 'cart.html';
   }
   else {
     return alert("Something is wrong!");
