@@ -1,6 +1,4 @@
 function redirect () {
-  //var currentPath = window.location.pathname;
-  //window.location.href = "file:///C:/Users/bralica/PROJECTS/project-shopping-cart-github/cart.html";
   self.location = "cart.html";
 }
 
