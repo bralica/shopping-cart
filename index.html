@@ -26,18 +26,15 @@
             <h3 class="panel-title">ULOGUJTE SE</h3>
           </div>
           <div class="panel-body">
-            <form role="form" name="mainLoginForm" id="mainLoginForm" onsubmit="loginUser(document.mainLoginForm.firstName.value,document.mainLoginForm.lastName.value);">
-              <fieldset>
-                <div class="form-group">
-                  <input class="form-control" placeholder="Ime" name="firstName" type="text" autofocus="">
-                </div>
-                <div class="form-group">
-                  <input class="form-control" placeholder="Prezime" name="lastName" type="text">
-                </div>
-                <!-- Change this to a button or input when using this as a form -->
-                <input class="btn btn-md btn-success" type="submit" value="POTVRDI">
-              </fieldset>
-            </form>
+              <p>
+                <input type="text" name="firstName" id="firstName" placeholder="Ime">
+              </p>
+              <p>
+                <input type="text" name="lastName" id="lastName" placeholder="Prezime">
+              </p>
+              <p>
+                <button class="btn btn-default btn-success" id="loginButton">POTVRDI</button>
+              </p>
           </div>
         </div>
       </div>
