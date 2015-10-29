@@ -1,3 +1,9 @@
+function redirect () {
+  //var currentPath = window.location.pathname;
+  //window.location.href = "file:///C:/Users/bralica/PROJECTS/project-shopping-cart-github/cart.html";
+  self.location = "cart.html";
+}
+
 function loginUser (firstname, lastname) {
 
   var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
@@ -10,8 +16,11 @@ function loginUser (firstname, lastname) {
       }
     }
   if (valid) {
-     //window.location.href = "cart.html";
-     window.location.href = "http://www.google.com";
+    //redirect();
+    self.location = 'cart.html';
+  }
+  else {
+    return alert("Something is wrong!");
   }
 
 }
@@ -37,6 +46,6 @@ function getServiceData(url, username, password) {
     return err;
   }
 }
-document.getElementById('loginForm').addEventListener("click", function () {
-  loginUser(document.mainLoginForm.firstName.value,document.mainLoginForm.lastName.value);
-});
+//document.getElementById('mainLoginForm').addEventListener("onsubmit", function () {
+//  loginUser(document.mainLoginForm.firstName.value,document.mainLoginForm.lastName.value);
+//});

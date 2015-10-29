@@ -89,6 +89,7 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 function getData(url, filter) {
 
   //prvo ukloni sve proizvode
+  //ovde moze funkcija
   var divAddProduct = document.getElementById('addProduct');
   while (divAddProduct.hasChildNodes()){
     divAddProduct.removeChild(divAddProduct.firstChild);
