@@ -1,21 +1,30 @@
+document.getElementById('loginButton').addEventListener("click", function () {
+  loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);
+});
+
 function redirect () {
+<<<<<<< HEAD
   self.location = "cart.html";
+=======
+ window.href.location = "http://www.google.com";
+>>>>>>> origin/migrating-to-jquery
 }
 
 function loginUser (firstname, lastname) {
 
   var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
   var valid = false;
+
     for (var user in users) {
 
-      if(users[user].FirstName == firstname || users[user].LastName == lastname) {
+      if(users[user].FirstName == firstname && users[user].LastName == lastname) {
         valid = true;
         break;
       }
+
     }
-  if (valid) {
-    //redirect();
-    self.location = 'cart.html';
+    if (valid) {
+      window.location.href = "cart.html";
   }
   else {
     return alert("Something is wrong!");
@@ -44,6 +53,3 @@ function getServiceData(url, username, password) {
     return err;
   }
 }
-//document.getElementById('mainLoginForm').addEventListener("onsubmit", function () {
-//  loginUser(document.mainLoginForm.firstName.value,document.mainLoginForm.lastName.value);
-//});
