@@ -74,12 +74,9 @@ function getData(url, filter) {
     divAddProduct.removeChild(divAddProduct.firstChild);
   }
 
-<<<<<<< HEAD
   //inicijalizuj filter
-
-=======
   var products = getServiceData(url).value;
->>>>>>> migrating-to-jquery
+
   for (var product in products) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
@@ -125,21 +122,20 @@ function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
   var output = "";
-<<<<<<< HEAD
   for (var category in categories) {
 
     var categoryId   = categories[category].CategoryID;
     var categoryName = categories[category].CategoryName;
     //funkcija koja prikazuje kategorije, odnosno kreira select meni
     output += '<option value="' + categoryId + '">' + categoryName + '</option>';
-=======
+
 
   for (var category in categories){
 
      var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      output += '<option value="' + categoryId + '">' + categoryName + '</option>';
->>>>>>> migrating-to-jquery
+
 
   }
   return output;
@@ -151,7 +147,7 @@ function getAndLoadCategoriesInMenu (url) {
   var output = "";
   for (var category in categories) {
 
-<<<<<<< HEAD
+
      var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
@@ -160,7 +156,6 @@ function getAndLoadCategoriesInMenu (url) {
   }
   var allCategories = 0;
   output += '<li><a href="#" data-catId="' + allCategories +'">Svi proizvodi</a></li>';
-=======
      var categoryName = categories[category].CategoryName;
      var categoryId   = categories[category].CategoryID;
      output += '<li><a href="#" id="' + categoryId + '"onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + categoryId + ')">' + categoryName + '</a></li>';
@@ -168,7 +163,7 @@ function getAndLoadCategoriesInMenu (url) {
   }
   var allCategories = 0;
   output += '<li><a href="#" id="' + allCategories +'" onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + allCategories + ')">Svi proizvodi</a></li>';
->>>>>>> migrating-to-jquery
+
   return output;
 
 }
