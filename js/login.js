@@ -3,11 +3,7 @@ document.getElementById('loginButton').addEventListener("click", function () {
 });
 
 function redirect () {
-<<<<<<< HEAD
-  self.location = "cart.html";
-=======
- window.href.location = "http://www.google.com";
->>>>>>> origin/migrating-to-jquery
+  window.href.location = "cart.html";
 }
 
 function loginUser (firstname, lastname) {
