@@ -1,2 +1,8 @@
 _old/*
 js/_old/*
+.brackets.json
+bower.json
+text-search.txt
+css/style.less
+css/variables.less
+css/variables.css

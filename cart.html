@@ -15,17 +15,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="projektat shopping cart">
   <meta name="author" content="Vladimir Tesic">
-
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/united.bootstrap-theme.css">
   <link rel="stylesheet" href="css/style.css">
-
   <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script> -->
 
 </head>
 
-<!--<body onload="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');">-->
 
 <body onload="loadData();">
 
@@ -51,19 +48,36 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="container">
 
-        <div class="collapse navbar-collapse" id="mainNavigation">
+        <div class="row">
 
-          <ul class="nav navbar-nav">
-            <li class="dropdown active">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kategorije proizvoda <span class="caret"></span></a>
-              <ul class="dropdown-menu" id="categoryNav">
+          <div class="collapse navbar-collapse col-md-9" id="mainNavigation">
 
-              </ul>
-            </li>
-            <li><a href="#">O Nama</a></li>
-            <li><a href="#">Uslovi kupovine</a></li>
-            <li><a href="#">Kontakt</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+              <li class="dropdown active">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kategorije proizvoda <span class="caret"></span></a>
+                <ul class="dropdown-menu" id="categoryNav">
+
+                </ul>
+              </li>
+              <li><a href="#">O Nama</a></li>
+              <li><a href="#">Uslovi kupovine</a></li>
+              <li><a href="#">Kontakt</a></li>
+            </ul>
+          </div>
+
+          <!-- search bar-->
+          <div class="col-md-3 col-sm-3 pull-right">
+
+            <form class="navbar-form">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="searchField" onkeyup="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', this.value);">
+                <div class="input-group-btn">
+                  <button class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+              </div>
+            </form>
+
+          </div>
 
         </div>
 
@@ -91,7 +105,7 @@
         <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
           NOV PROIZVOD
         </button>
-<!--
+        <!--
         <button class="btn btn-default btn-sm" onclick="">
           UCITAJ PROIZVODE
         </button>
@@ -164,11 +178,9 @@
 
       <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
-
       <script src="js/jquery-2.1.4.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/cart.js"></script>
-      <!-- <script src="js/main.js"></script> -->
     </div>
   </div>
   <footer id="footer-main" class="container-fluid">

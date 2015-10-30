@@ -1,21 +1,11 @@
-//<<<<<<< HEAD:js/main.js
-//function takeImage (id) {
-//=======
 // FIXME: oduzima i proizvode koji nisu u  korpi
 // FIXME: modal window se ne zatvara posto se doda proizvod
-// [x]FIXME: button za dodavanje proizvoda je ruzan
-
-// [x]TODO: u formi za dodavanje proizvoda dodati dropdown sa kategorijama; to je novi file sa web service url-a
 // TODO: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
-// TODO: kreirati new branch
-// TODO: formatirati cene koje stizu sa servera u citljiv oblik
-// TODO: HTTP pozivom adrese http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json dobija se spisak kategorija proizvoda.
-// TODO: Za svaki proizvod odrediti ime kategorije kojoj pripada prikazati ga uz proizvod.
-// Format kategorija u json file-u:
+// TODO: formatirati cene koje stizu sa servera u citljiv oblik// [x]TODO: Za svaki proizvod odrediti ime kategorije kojoj pripada prikazati ga uz proizvod.
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
-//Prosiriti funkciju dodajProizvod, da se doda i kategorija proizvoda.
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
-//TODO: dodajProizvod dobija jos dva argumenta, categoryName, productName
+//example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+//TODO: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -23,23 +13,26 @@ var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwin
 var suma = 0;
 var shoppingCart = [];
 
-function loadData (){
-  showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
-getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
+var filter = 0;
 
+function loadData(){
+  showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
+  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
 }
 
 function takeCategory (id, categories) {
+
   for(var i in categories) {
+
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
     }
+
   }
 
 }
 
 function takeImage (id, slike) {
-
   for (var i in slike) {
     if(slike[i].id == id) {
       return slike[i].path;
@@ -61,40 +54,92 @@ function getRandomNumber (max, min){
 
 }
 
-document.getElementById('dodajNovProizvod').addEventListener("click", function () {
+document.getElementById('dodajNovProizvod').addEventListener("click", function(){
+
   dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value)
+
 });
+
+//NOTE: Ne radi event listener? Proveri!
+//document.getElementById('searchField').addEventListener("onkeyup", function(){
+//  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
+//});
 
 //LOAD SERVICE DATA
 function getData(url, filter) {
 
-  var products = getServiceData(url).value;
+  //TODO: Funkcija za uklanjanje proizvoda
+  var divAddProduct = document.getElementById('addProduct');
+  while (divAddProduct.hasChildNodes()){
+    divAddProduct.removeChild(divAddProduct.firstChild);
+  }
 
+<<<<<<< HEAD
   //inicijalizuj filter
 
+=======
+  var products = getServiceData(url).value;
+>>>>>>> migrating-to-jquery
   for (var product in products) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
     //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
 
-    dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+    if (filter == undefined || filter == "") {
+       filter = 0;
+       dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+    }
+
+    if (products[product].CategoryID == filter){
+
+      dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+
+    }
+    if (typeof filter == 'string') {
+
+      if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
+
+        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
+      }
+
+    }
   }
-
-
 
 }
 
-function getAndLoadCategories (url) {
+function findCategory (categories, filter) {
+
+  for (var category in categories) {
+    if (categories[category].CategoryName == filter){
+      return categories[category].CategoryID;
+    }
+    else {
+      return false;
+    }
+  }
+
+}
+
+function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
   var output = "";
+<<<<<<< HEAD
   for (var category in categories) {
 
     var categoryId   = categories[category].CategoryID;
     var categoryName = categories[category].CategoryName;
     //funkcija koja prikazuje kategorije, odnosno kreira select meni
     output += '<option value="' + categoryId + '">' + categoryName + '</option>';
+=======
+
+  for (var category in categories){
+
+     var categoryId   = categories[category].CategoryID;
+     var categoryName = categories[category].CategoryName;
+     output += '<option value="' + categoryId + '">' + categoryName + '</option>';
+>>>>>>> migrating-to-jquery
 
   }
   return output;
@@ -106,6 +151,7 @@ function getAndLoadCategoriesInMenu (url) {
   var output = "";
   for (var category in categories) {
 
+<<<<<<< HEAD
      var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
@@ -114,6 +160,15 @@ function getAndLoadCategoriesInMenu (url) {
   }
   var allCategories = 0;
   output += '<li><a href="#" data-catId="' + allCategories +'">Svi proizvodi</a></li>';
+=======
+     var categoryName = categories[category].CategoryName;
+     var categoryId   = categories[category].CategoryID;
+     output += '<li><a href="#" id="' + categoryId + '"onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + categoryId + ')">' + categoryName + '</a></li>';
+
+  }
+  var allCategories = 0;
+  output += '<li><a href="#" id="' + allCategories +'" onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + allCategories + ')">Svi proizvodi</a></li>';
+>>>>>>> migrating-to-jquery
   return output;
 
 }
@@ -123,6 +178,7 @@ function showCategories (output) {
    document.getElementById('categoryName').innerHTML = output;
 
 }
+
 function showCategoriesInMenu (output) {
 
    document.getElementById('categoryNav').innerHTML = output;
@@ -175,10 +231,9 @@ function getCategoryData (url, username, password) {
   }
 }
 
-function dodajProizvod(imgPath, productPrice, productName, categoryId ){
+function dodajProizvod(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
-  //var cntProduct = document.getElementsByClassName('priceTag').length;
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
 
   if(numberOfProducts == undefined || numberOfProducts == 0)  {
@@ -192,18 +247,15 @@ function dodajProizvod(imgPath, productPrice, productName, categoryId ){
   //TODO: filter by ull text search
 
   var divColMd3 = document.createElement("div");
-  divColMd3.setAttribute("class", "col-md-3 col-sm-6");
+  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
   divProductRow.appendChild(divColMd3);
 
-  //TODO: dodatak za elemente koji ce prikazivati naziv proizvoda i kategoriju proizvoda
-  //TODO: za pocetak p tagovi pa ga ulepsaj
   var prName = document.createElement("p");
   prName.setAttribute("class", "product-title");
   prName.innerHTML = productName;
   divColMd3.appendChild(prName);
 
   var categoryName = takeCategory(categoryId, categories);
-
   var catName = document.createElement("p");
   catName.setAttribute("class", "text-left category-title");
   catName.innerHTML = categoryName;
@@ -271,19 +323,9 @@ function ukloni(element) {
   cena = Number(cena);
   kolicina = Number(kolicina);
 
-
-  // FIXME: funkcija ispitaj da li je proizvod u korpi
-  // FIXME: funkcija za kreiranje objekta productData
-  // [x]FIXME: umesto uklanjanja elementa, ukloni kolicinu
-
   for (var i in shoppingCart) {
 
-    //ukoliko proizvod postoji u korpi, ukloni ga, ukoliko ne postoji izbaci obavestenje
     if (shoppingCart[i].proizvodId == elementId) {
-
-      //ukloni element
-      //shoppingCart.splice(i,1);
-      //[x]CHANGES: umesto proizvoda uklanja kolicinu
 
       shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - kolicina;
       if (shoppingCart[i].proizvodKolicina <= 0) {
@@ -307,6 +349,7 @@ function ukloni(element) {
   }
 
   for (var j in shoppingCart) {
+
     //ispisi sta je u korpi
     document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
 
@@ -331,7 +374,6 @@ function dodaj(element) {
     proizvodKolicina: kolicina
   };
 
-  //Ukoliko je prazan niz, dodaj element u vidu objekta
   if (shoppingCart == undefined || shoppingCart.length == 0) {
     shoppingCart.push(productData);
   }
@@ -347,11 +389,9 @@ function dodaj(element) {
         //ovde ga duplira(vec postoji kolicina iz productData ubacenog gore, dodati neki uslov koji iskljucuje prvi proizvod)
         shoppingCart[i].proizvodKolicina += kolicina;
       }
-
-
     }
+
     var flag = false;
-    //Ukoliko proizvod nije u korpi dodaj ga
     if (shoppingCart[i].proizvodId == elementId) {
       flag = true;
       break;
@@ -364,20 +404,10 @@ function dodaj(element) {
 
   suma = suma + (cena * kolicina);
 
-
-  //NOTE: dodavanje proizvoda u korpu. Proizvod je predstavljem kao objekat sa svojim atributima -> imgPath?, cena, kolicina, naziv, ...
-  //za pocetak; id->element.id, cena->document.getElementById(cenaId), kolicina, imgPath?
-
-  //[x]NOTE: Ukoliko postoji proizvod u nizu shoppingCart, tj. u korpi, uvecava se kolicina
-  //ukoliko ne postoji proizvod u korpi, dodaje se ceo proizvod u korpu.
-
-
   document.getElementById("suma").innerHTML = suma + " rsd";
 
-
-  //ispis proizvoda u korpi
   for (var j in shoppingCart) {
-    //ispisi sta je u korpi
+
     document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
 
   }
