@@ -226,6 +226,24 @@ function getCategoryData (url, username, password) {
   }
 }
 
+function getAndLoadCategoriesInMenu (url) {
+
+  var categories = getCategoryData(url).value;
+  var output = "";
+  for (var category in categories) {
+
+     var categoryName = categories[category].CategoryName;
+     var categoryId   = categories[category].CategoryID;
+     output += '<li><a href="#" id="' + categoryId + '"onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + categoryId + ')">' + categoryName + '</a></li>';
+
+  }
+  var allCategories = 0;
+  output += '<li><a href="#" id="' + allCategories +'" onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + allCategories + ')">Svi proizvodi</a></li>';
+  return output;
+}
+
+
+
 function dodajProizvod(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
