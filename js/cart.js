@@ -5,7 +5,7 @@
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
-//TODO: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
+//TODO[x]: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
 //FIXME: Problems with EventListeners
 
 // --- LOGING IN ---
@@ -41,7 +41,7 @@ function loginUser (firstname, lastname) {
 
         document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokusajte ponovo";
         document.getElementById('errorMessage').className = "errorMessage";
-        return alert("Something is wrong!");
+        //return alert("Something is wrong!");
 
   }
 }
@@ -54,6 +54,11 @@ function logoutUser() {
 function redirect () {
   window.location.href = "cart.html";
 }
+
+var uName = sessionStorage.getItem("loggedUser");
+document.getElementById('loggedIn').innerHTML = "You are logged in as " + uName + "!";
+document.getElementById('logout').innerHTML = "logout";
+
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -393,8 +398,9 @@ function ukloni(element) {
       shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - kolicina;
       if (shoppingCart[i].proizvodKolicina <= 0) {
         shoppingCart.splice(i, 1);
+        break;
       }
-      break;
+      //break;
     }
   }
   if (suma > 0) {

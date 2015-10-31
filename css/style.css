@@ -118,6 +118,6 @@ p.errorMessage {
   text-transform: uppercase;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-weight: bold;
-  color: chocolate;
+  font-weight: 700;
+  color: #6e160c;
 }
