@@ -8,17 +8,22 @@
 //TODO[x]: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
 //FIXME: Problems with EventListeners
 
-// --- LOGING IN ---
+// --- LOGIN ---
 
 //document.getElementById('loginButton').addEventListener("click", function () {
 //  loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);
 //});
 
 function checkLogin () {
+
   if (!sessionStorage.getItem("loggedUser")){
+
     window.location.href= "index.html";
+
   }
+
 }
+
 function loginUser (firstname, lastname) {
 
   var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
@@ -38,13 +43,12 @@ function loginUser (firstname, lastname) {
       redirect();
 
     } else {
-
-        document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokusajte ponovo";
+        document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokušajte ponovo";
         document.getElementById('errorMessage').className = "errorMessage";
-        //return alert("Something is wrong!");
-
   }
+
 }
+
 function logoutUser() {
   if (sessionStorage.getItem("loggedUser")) {
     sessionStorage.clear();
@@ -56,8 +60,8 @@ function redirect () {
 }
 
 var uName = sessionStorage.getItem("loggedUser");
-document.getElementById('loggedIn').innerHTML = "You are logged in as " + uName + "!";
-document.getElementById('logout').innerHTML = "logout";
+document.getElementById('loggedIn').innerHTML = "Hi " + uName + "!";
+document.getElementById('logout').innerHTML = "Logout";
 
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
@@ -297,8 +301,6 @@ function getAndLoadCategoriesInMenu (url) {
   return output;
 }
 
-
-
 function dodajProizvod(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
@@ -391,24 +393,21 @@ function ukloni(element) {
   cena = Number(cena);
   kolicina = Number(kolicina);
 
+  //TODO: ispitaj da li se proizvod nalazi u korpi. Ako ga nema ne azurriraj sumu.
   for (var i in shoppingCart) {
 
     if (shoppingCart[i].proizvodId == elementId) {
 
       shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - kolicina;
+      suma  = suma - (shoppingCart[i].proizvodKolicina * cena);
+
       if (shoppingCart[i].proizvodKolicina <= 0) {
+
         shoppingCart.splice(i, 1);
         break;
+
       }
-      //break;
     }
-  }
-  if (suma > 0) {
-
-    suma = suma - (cena * kolicina);
-
-  } else {
-    suma = 0;
   }
 
   document.getElementById("suma").innerHTML = suma + " rsd";
