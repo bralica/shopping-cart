@@ -7,9 +7,53 @@
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 //TODO: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
 
+// --- LOGING IN ---
+
+//document.getElementById('loginButton').addEventListener("click", function () {
+//  loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);
+//});
+
+function checkLogin () {
+  if (!sessionStorage.getItem("loggedUser")){
+    window.location.href= "index.html";
+  }
+}
+function loginUser (firstname, lastname) {
+
+  var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
+  var valid = false;
+
+    for (var user in users) {
+
+      if(users[user].FirstName == firstname && users[user].LastName == lastname) {
+        valid = true;
+        sessionStorage.setItem("loggedUser", users[user].FirstName);
+        break;
+      }
+
+    }
+    if (valid) {
+      //window.location.href = "cart.html";
+      redirect();
+  }
+  else {
+    return alert("Something is wrong!");
+  }
+}
+function logoutUser() {
+  if (sessionStorage.getItem("loggedUser")) {
+    sessionStorage.clear();
+    window.location.href="index.html";
+  }
+}
+function redirect () {
+  window.location.href = "cart.html";
+}
+
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
+
 var suma = 0;
 var shoppingCart = [];
 
@@ -18,6 +62,7 @@ var filter = 0;
 function loadData(){
   showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
   getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
+  checkLogin();
 }
 
 function takeCategory (id, categories) {

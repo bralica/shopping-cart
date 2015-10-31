@@ -3,7 +3,7 @@ document.getElementById('loginButton').addEventListener("click", function () {
 });
 
 function redirect () {
-  window.href.location = "cart.html";
+  window.location.href = "cart.html";
 }
 
 function loginUser (firstname, lastname) {
@@ -15,18 +15,20 @@ function loginUser (firstname, lastname) {
 
       if(users[user].FirstName == firstname && users[user].LastName == lastname) {
         valid = true;
+        sessionStorage.setItem("loggedUser", users[user].FirstName);
         break;
       }
 
     }
     if (valid) {
-      window.location.href = "cart.html";
+      //window.location.href = "cart.html";
+      redirect();
   }
   else {
     return alert("Something is wrong!");
   }
-
 }
+
 function getServiceData(url, username, password) {
 
   try {
