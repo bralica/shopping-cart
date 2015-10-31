@@ -38,31 +38,33 @@ function loginUser (firstname, lastname) {
       }
 
     }
-    if (valid) {
 
+    if (valid) {
       redirect();
 
     } else {
         document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokušajte ponovo";
         document.getElementById('errorMessage').className = "errorMessage";
-  }
+      }
 
 }
 
 function logoutUser() {
+
   if (sessionStorage.getItem("loggedUser")) {
     sessionStorage.clear();
     window.location.href="index.html";
   }
+
 }
+
 function redirect () {
   window.location.href = "cart.html";
 }
 
 var uName = sessionStorage.getItem("loggedUser");
-document.getElementById('loggedIn').innerHTML = "Hi " + uName + "!";
+document.getElementById('loggedIn').innerHTML = "Welcome " + uName + "!";
 document.getElementById('logout').innerHTML = "Logout";
-
 
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -82,7 +84,6 @@ function loadData(){
 function takeCategory (id, categories) {
 
   for(var i in categories) {
-
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
     }
@@ -114,8 +115,7 @@ function getRandomNumber (max, min){
 }
 
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
-
-  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value)
+  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
 
 });
 
