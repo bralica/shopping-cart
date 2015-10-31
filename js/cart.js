@@ -1,11 +1,12 @@
 // FIXME: oduzima i proizvode koji nisu u  korpi
 // FIXME: modal window se ne zatvara posto se doda proizvod
 // TODO: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
-// TODO: formatirati cene koje stizu sa servera u citljiv oblik// [x]TODO: Za svaki proizvod odrediti ime kategorije kojoj pripada prikazati ga uz proizvod.
+// TODO: formatirati cene koje stizu sa servera u citljiv oblik.
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 //TODO: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
+//FIXME: Problems with EventListeners
 
 // --- LOGING IN ---
 
@@ -33,11 +34,15 @@ function loginUser (firstname, lastname) {
 
     }
     if (valid) {
-      //window.location.href = "cart.html";
+
       redirect();
-  }
-  else {
-    return alert("Something is wrong!");
+
+    } else {
+
+        document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokusajte ponovo";
+        document.getElementById('errorMessage').className = "errorMessage";
+        return alert("Something is wrong!");
+
   }
 }
 function logoutUser() {

@@ -5,7 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" media="screen" href="css/bootstrap.min.css">
+  <link rel="stylesheet" media="screen" href="css/style.css">
   <title>LOGIN</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
   <style>
     body {
@@ -17,7 +19,7 @@
 
 <body>
 
-  <div class="container" style="margin-top:11%">
+  <div class="container" style="margin-top:10%">
     <br>
     <div class="col-md-12">
       <div class="modal-dialog" style="margin-bottom:0">
@@ -32,6 +34,7 @@
             <p>
               <input type="text" name="lastName" id="lastName" placeholder="Prezime" class="form-control">
             </p>
+            <p id="errorMessage"></p>
             <p>
               <button class="btn btn-default btn-success" id="loginButton" onclick="loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);">POTVRDI</button>
             </p>
