@@ -164,6 +164,7 @@ function getData(url, filter) {
 
 }
 
+
 function findCategory (categories, filter) {
 
   for (var category in categories) {
@@ -474,12 +475,12 @@ function dodaj(element) {
 
   document.getElementById("suma").innerHTML = suma + " rsd";
 
-  for (var j in shoppingCart) {
-
-    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-
-  }
-  alert(element.id);
+//  for (var j in shoppingCart) {
+//
+//    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
+//
+//  }
+  //alert(element.id);
 
   if (kolicina != 1) {
     document.getElementById(kolicinaId).value = 1;
