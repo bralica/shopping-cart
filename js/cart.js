@@ -426,7 +426,6 @@ function removeItem(element) {
 }
 
 //funkcija dodaj na drugaciji nacin
-<<<<<<< HEAD
 //TODO: probaj da kreiras funkciju koja ce da prihvati objekat(element), da setuje vrednosti i da vrati taj objekat
 function addProduct (element) {
 
