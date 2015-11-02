@@ -64,7 +64,6 @@ var uName = sessionStorage.getItem("loggedUser");
 document.getElementById('loggedIn').innerHTML = "Welcome, " + uName + "!";
 document.getElementById('logout').innerHTML = "Logout";
 
-
 // ------- GLOBALS -------
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
@@ -99,7 +98,6 @@ function prepareElement (element) {
   return productData;
 
 }
-
 
 //---------- HELPER Functions for various tasks ----------
 function takeCategory (id, categories) {
