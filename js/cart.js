@@ -447,6 +447,7 @@ function findInArray (id) {
   return false;
 }
 //funkcija dodaj na drugaciji nacin
+//TODO: probaj da kreiras funkciju koja ce da prihvati objekat(element), da setuje vrednosti i da vrati taj objekat
 function addProduct (element) {
 
     var elementId = element.id;
