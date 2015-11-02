@@ -99,7 +99,7 @@ function prepareElement (element) {
 
 }
 
-//---------- HELPER Functions for various tasks ----------
+//---------- HELPER Functions for various tasks -------
 function takeCategory (id, categories) {
   for(var i in categories) {
     if(categories[i].CategoryID == id){
@@ -214,7 +214,6 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 //document.getElementById('searchField').addEventListener("onkeyup", function(){
 //  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
 //});
-
 
 
 //NOTE: Load Service Data. Ovo je funkcija u koja kreira i prikazuje proizvode u odnosu na filter.
@@ -403,7 +402,6 @@ function removeItem(element) {
   var product = prepareElement(element);
   var kolicinaId = "kolicina" + product.proizvodId;
 
-  //TODO: ispitaj da li se proizvod nalazi u korpi. Ako ga nema ne azurriraj sumu.
   for (var i in shoppingCart) {
       if (shoppingCart[i].proizvodId == product.proizvodId) {
         shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - product.proizvodKolicina;
