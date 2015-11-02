@@ -1,6 +1,7 @@
 _old/*
 js/_old/*
 js/login.js
+js/functions.js
 js/search-alorhytm.js
 .brackets.json
 bower.json

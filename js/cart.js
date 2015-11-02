@@ -1,4 +1,4 @@
-// FIXME: oduzima i proizvode koji nisu u  korpi
+// FIXME[x]: oduzima i proizvode koji nisu u  korpi
 // FIXME: modal window se ne zatvara posto se doda proizvod
 // TODO: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
 // TODO: formatirati cene koje stizu sa servera u citljiv oblik.
@@ -6,22 +6,25 @@
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 //TODO[x]: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
-//FIXME: Problems with EventListeners
+//FIXME: Problems with EventListeners. Probaj da ih resis tako sto ce postojati f-ja prepareEventListeners koja ce biti zakacena na window.onload event
 
-// --- LOGIN ---
 
 //document.getElementById('loginButton').addEventListener("click", function () {
 //  loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);
 //});
 
+//---------- ONLOAD ----------
+function loadData(){
+  showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
+  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
+  checkLogin();
+}
+
+// -------- LOGIN -------- //
 function checkLogin () {
-
   if (!sessionStorage.getItem("loggedUser")){
-
     window.location.href= "index.html";
-
   }
-
 }
 
 function loginUser (firstname, lastname) {
@@ -29,33 +32,28 @@ function loginUser (firstname, lastname) {
   var users = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json').value;
   var valid = false;
 
-    for (var user in users) {
-
-      if(users[user].FirstName == firstname && users[user].LastName == lastname) {
-        valid = true;
-        sessionStorage.setItem("loggedUser", users[user].FirstName);
-        break;
-      }
-
+  for (var user in users) {
+    if(users[user].FirstName == firstname && users[user].LastName == lastname) {
+      valid = true;
+      sessionStorage.setItem("loggedUser", users[user].FirstName);
+      break;
     }
+  }
 
-    if (valid) {
-      redirect();
-
-    } else {
-        document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokušajte ponovo";
-        document.getElementById('errorMessage').className = "errorMessage";
-      }
+  if (valid) {
+    redirect();
+  } else {
+      document.getElementById('errorMessage').innerHTML = "Uneti podaci nisu ispravni. Pokušajte ponovo";
+      document.getElementById('errorMessage').className = "errorMessage";
+  }
 
 }
 
 function logoutUser() {
-
   if (sessionStorage.getItem("loggedUser")) {
     sessionStorage.clear();
     window.location.href="index.html";
   }
-
 }
 
 function redirect () {
@@ -63,9 +61,11 @@ function redirect () {
 }
 
 var uName = sessionStorage.getItem("loggedUser");
-document.getElementById('loggedIn').innerHTML = "Welcome " + uName + "!";
+document.getElementById('loggedIn').innerHTML = "Welcome, " + uName + "!";
 document.getElementById('logout').innerHTML = "Logout";
 
+
+// ------- GLOBALS -------
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
@@ -75,21 +75,39 @@ var shoppingCart = [];
 
 var filter = 0;
 
-function loadData(){
-  showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
-  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json');
-  checkLogin();
+//---------- INICIJALIZACIJA PRODUCT OBJEKTA ----------
+//konstruktor za novi proizvod
+function Product (id, cena, kolicina){
+  this.proizvodId   = id;
+  this.proizvodCena = cena;
+  this.proizvodKolicina = kolicina;
 }
 
-function takeCategory (id, categories) {
+//priprema element za dalju obradu i vraca objekat sa setovanim vrednostima
+function prepareElement (element) {
 
+  var elementId = element.id;
+  var cenaId = "cena" + element.id;
+  var kolicinaId = "kolicina" + element.id;
+  var cena = document.getElementById(cenaId).outerText;
+  var kolicina = document.getElementById(kolicinaId).valueAsNumber;
+
+  cena = Number(cena);
+  kolicina = Number(kolicina);
+
+  var productData = new Product (elementId, cena, kolicina);
+  return productData;
+
+}
+
+
+//---------- HELPER Functions for various tasks ----------
+function takeCategory (id, categories) {
   for(var i in categories) {
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
     }
-
   }
-
 }
 
 function takeImage (id, slike) {
@@ -104,67 +122,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-function getRandomNumber (max, min){
-
-    return Math.round(Math.random() * (max - min)) + min;
-
-}
-
-document.getElementById('dodajNovProizvod').addEventListener("click", function(){
-  dodajProizvod(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
-
-});
-
-//NOTE: Ne radi event listener? Proveri!
-//document.getElementById('searchField').addEventListener("onkeyup", function(){
-//  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
-//});
-
-//LOAD SERVICE DATA
-function getData(url, filter) {
-
-  //TODO: Funkcija za uklanjanje proizvoda
-  var divAddProduct = document.getElementById('addProduct');
-  while (divAddProduct.hasChildNodes()){
-    divAddProduct.removeChild(divAddProduct.firstChild);
-  }
-
-  //inicijalizuj filter
-  var products = getServiceData(url).value;
-
-  for (var product in products) {
-
-    var imgPath = takeImage(getRandomInt(1,4), slike);
-    var catName = takeCategory(products[product].CategoryID, categories);
-    //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
-
-    if (filter == undefined || filter == "") {
-       filter = 0;
-       dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
-    }
-
-    if (products[product].CategoryID == filter){
-
-      dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
-
-    }
-    if (typeof filter == 'string') {
-
-      if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
-
-        dodajProizvod(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
-      }
-
-    }
-  }
-
-}
-
-
 function findCategory (categories, filter) {
 
   for (var category in categories) {
@@ -178,6 +135,7 @@ function findCategory (categories, filter) {
 
 }
 
+//NOTE:
 function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
@@ -229,14 +187,72 @@ function getAndLoadCategoriesInMenu (url) {
 }
 
 function showCategories (output) {
-
    document.getElementById('categoryName').innerHTML = output;
-
 }
 
 function showCategoriesInMenu (output) {
-
    document.getElementById('categoryNav').innerHTML = output;
+}
+
+//TODO: f-ja za uklanjanje proizvoda, prosledjuje se element(objekat) kao parametar documentGetElementById("");
+function removeChildElements (element){
+   while (element.hasChildNodes()) {
+    element.removeChild(element.firstChild);
+   }
+}
+
+//dodaj proizvod u korpu, ako ne postoji
+function insertProductInCart (id,cena,kolicina) {
+  var product = new Product(id, cena, kolicina);
+  shoppingCart.push(product);
+}
+
+//NOTE: createProduct
+document.getElementById('dodajNovProizvod').addEventListener("click", function(){
+  createProduct(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
+});
+
+//NOTE: Ne radi event listener? Proveri!Opis na vrhu
+//document.getElementById('searchField').addEventListener("onkeyup", function(){
+//  getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json', document.getElementById('searchField').value);
+//});
+
+
+
+//NOTE: Load Service Data. Ovo je funkcija u koja kreira i prikazuje proizvode u odnosu na filter.
+function getData(url, filter) {
+
+  //TODO[x]: Funkcija za uklanjanje proizvoda
+  var divAddProduct = document.getElementById('addProduct');
+
+  removeChildElements(divAddProduct);
+
+  //inicijalizuj filter
+  var products = getServiceData(url).value;
+
+  for (var product in products) {
+
+    var imgPath = takeImage(getRandomInt(1,4), slike);
+    var catName = takeCategory(products[product].CategoryID, categories);
+
+    //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
+    if (filter == undefined || filter == "") {
+       filter = 0;
+       createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+    }
+    if (products[product].CategoryID == filter){
+
+      createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+
+    }
+    if (typeof filter == 'string') {
+
+      if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
+
+        createProduct(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
+      }
+    }
+  }
 
 }
 
@@ -302,7 +318,7 @@ function getAndLoadCategoriesInMenu (url) {
   return output;
 }
 
-function dodajProizvod(imgPath, productPrice, productName, categoryId){
+function createProduct(imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
@@ -370,179 +386,74 @@ function dodajProizvod(imgPath, productPrice, productName, categoryId){
   var buttonTagAdd = document.createElement("button");
   buttonTagAdd.setAttribute("class", "btn btn-success btn-sm");
   buttonTagAdd.setAttribute("id", "P" + cntProduct);
-  buttonTagAdd.setAttribute("onclick", "addProduct(this)");
+  buttonTagAdd.setAttribute("onclick", "addItem(this)");
   buttonTagAdd.innerHTML = "Dodaj u korpu";
   divColMd3.appendChild(buttonTagAdd);
 
   var buttonTagRemove = document.createElement("button");
   buttonTagRemove.setAttribute("class", "btn btn-danger btn-sm");
   buttonTagRemove.setAttribute("id", "P" + cntProduct);
-  buttonTagRemove.setAttribute("onclick", "ukloni(this)");
+  buttonTagRemove.setAttribute("onclick", "removeItem(this)");
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
 
 }
 
-function ukloni(element) {
+//TODO[x]: funkcija ukloni sa prepareElement funkcijom
+function removeItem(element) {
 
-  var elementId = element.id;
-  var cenaId = "cena" + element.id;
-  var kolicinaId = "kolicina" + element.id;
-  var cena = document.getElementById(cenaId).outerText;
-  var kolicina = document.getElementById(kolicinaId).valueAsNumber;
-
-  cena = Number(cena);
-  kolicina = Number(kolicina);
+  var product = prepareElement(element);
+  var kolicinaId = "kolicina" + product.proizvodId;
 
   //TODO: ispitaj da li se proizvod nalazi u korpi. Ako ga nema ne azurriraj sumu.
   for (var i in shoppingCart) {
-      if (shoppingCart[i].proizvodId == elementId) {
-        shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - kolicina;
-        suma  = suma - (kolicina * cena);
+      if (shoppingCart[i].proizvodId == product.proizvodId) {
+        shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - product.proizvodKolicina;
+        suma  = suma - (product.proizvodKolicina * product.proizvodCena);
         if(suma < 0){suma = 0};
         if (shoppingCart[i].proizvodKolicina <= 0) {
           shoppingCart.splice(i, 1);
         }
     }
   }
-
-//  if(suma >= 0){
-//    suma  = suma - (kolicina * cena);
-//  }  else if (suma < 0) {
-//    suma = 0;
-//  }
-
   document.getElementById("suma").innerHTML = suma + " rsd";
 
-  if (kolicina != 1) {
+  if (product.proizvodKolicina  != 1) {
     document.getElementById(kolicinaId).value = 1;
   }
 
+  //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
   for (var j in shoppingCart) {
-
     //ispisi sta je u korpi
     document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-
   }
 }
 
-//konstruktor za novi proizvod
-function Product (id, cena, kolicina){
-  this.proizvodId   = id;
-  this.proizvodCena = cena;
-  this.proizvodKolicina = kolicina;
-}
-
-//dodaj proizvod u korpu, ako ne postoji
-function insertProductInCart (id,cena,kolicina) {
-  var product = new Product(id, cena, kolicina);
-  shoppingCart.push(product);
-}
-function findInArray (id) {
-  for (var i = 0; i < shoppingCart.lenght; i++) {
-    if(shoppingCart[i].proizvodId == id) {
-     return true;
-    }
-  }
-  return false;
-}
 //funkcija dodaj na drugaciji nacin
-function addProduct (element) {
+function addItem (element) {
 
-    var elementId = element.id;
-    var cenaId = "cena" + element.id;
-    var kolicinaId = "kolicina" + element.id;
-    var cena = document.getElementById(cenaId).outerText;
-    var kolicina = document.getElementById(kolicinaId).valueAsNumber;
+    var product = prepareElement(element);
+    var kolicinaId = "kolicina" + product.proizvodId;
 
-    cena = Number(cena);
-    kolicina = Number(kolicina);
-
-    //prvi proizvod
-//    if (shoppingCart == undefined || shoppingCart == 0) {
-//      insertProductInCart(elementId, cena, kolicina);
-//    }
-//    else {
-      var flag = false;
-      for (var i in shoppingCart){
-        if (shoppingCart[i].proizvodId == elementId) {
-          shoppingCart[i].proizvodKolicina += kolicina;
-          flag = true;
-        }
+    var addItemToCart = false;
+    for (var i in shoppingCart){
+      if (shoppingCart[i].proizvodId == product.proizvodId) {
+        shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
+        addItemToCart = true;
       }
-    //}
-    if(!flag){
-      insertProductInCart(elementId, cena, kolicina);
     }
-    suma = suma + (cena * kolicina);
+    if(!addItemToCart){
+      insertProductInCart(product.proizvodId, product.proizvodCena, product.proizvodKolicina);
+    }
+    suma = suma + (product.proizvodCena * product.proizvodKolicina);
     document.getElementById("suma").innerHTML = suma + " rsd";
 
+    //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
     for (var j in shoppingCart) {
       document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
     }
-    //alert(element.id);
-    if (kolicina != 1) {
+    //Kolicina se setuje na 1
+    if (product.proizvodKolicina != 1) {
       document.getElementById(kolicinaId).value = 1;
     }
-}
-
-
-function dodaj(element) {
-
-  var elementId = element.id;
-  var cenaId = "cena" + element.id;
-  var kolicinaId = "kolicina" + element.id;
-  var cena = document.getElementById(cenaId).outerText;
-  var kolicina = document.getElementById(kolicinaId).valueAsNumber;
-
-  cena = Number(cena);
-  kolicina = Number(kolicina);
-
-  //kreiraj objekat productData
-  var productData = {
-    proizvodId: elementId,
-    proizvodCena: cena,
-    proizvodKolicina: kolicina
-  };
-
-  if (shoppingCart == undefined || shoppingCart.length == 0) {
-    shoppingCart.push(productData);
-  }
-
-  for (var i in shoppingCart) {
-
-    //ukoliko postoje elementi u korpi
-    if (shoppingCart.length > 0) {
-      if (shoppingCart[i].proizvodId == elementId && shoppingCart.length != 1) {
-        //[x]FIXME: dupliranje
-        //ovde ga duplira(vec postoji kolicina iz productData ubacenog gore, dodati neki uslov koji iskljucuje prvi proizvod)
-        shoppingCart[i].proizvodKolicina += kolicina;
-      }
-    }
-    var flag = false;
-    if (shoppingCart[i].proizvodId == elementId) {
-      flag = true;
-      break;
-    }
-
-  }
-  if (flag == false) {
-    shoppingCart.push(productData);
-  }
-
-  suma = suma + (cena * kolicina);
-
-  document.getElementById("suma").innerHTML = suma + " rsd";
-
-  for (var j in shoppingCart) {
-
-    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-
-  }
-  //alert(element.id);
-
-  if (kolicina != 1) {
-    document.getElementById(kolicinaId).value = 1;
-  }
-
 }
