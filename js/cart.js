@@ -403,12 +403,16 @@ function removeItem(element) {
   var kolicinaId = "kolicina" + product.proizvodId;
 
   for (var i in shoppingCart) {
-      if (shoppingCart[i].proizvodId == product.proizvodId) {
+    if (shoppingCart[i].proizvodId == product.proizvodId) {
+      if (shoppingCart[i].proizvodKolicina >= product.proizvodKolicina) {
         shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - product.proizvodKolicina;
-        suma  = suma - (product.proizvodKolicina * product.proizvodCena);
+        suma = suma - (product.proizvodKolicina * product.proizvodCena);
         if(suma < 0){suma = 0};
-        if (shoppingCart[i].proizvodKolicina <= 0) {
+        if (shoppingCart[i].proizvodKolicina == 0) {
           shoppingCart.splice(i, 1);
+        }
+      } else {
+          alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
         }
     }
   }
@@ -419,37 +423,11 @@ function removeItem(element) {
   }
 
   //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
-  for (var j in shoppingCart) {
-    //ispisi sta je u korpi
-    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-  }
+//  for (var j in shoppingCart) {
+//    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
+//  }
 }
 
-//funkcija dodaj na drugaciji nacin
-//TODO: probaj da kreiras funkciju koja ce da prihvati objekat(element), da setuje vrednosti i da vrati taj objekat
-function addProduct (element) {
-
-    var elementId = element.id;
-    var cenaId = "cena" + element.id;
-    var kolicinaId = "kolicina" + element.id;
-    var cena = document.getElementById(cenaId).outerText;
-    var kolicina = document.getElementById(kolicinaId).valueAsNumber;
-
-    cena = Number(cena);
-    kolicina = Number(kolicina);
-
-    //prvi proizvod
-//    if (shoppingCart == undefined || shoppingCart == 0) {
-//      insertProductInCart(elementId, cena, kolicina);
-//    }
-//    else {
-      var flag = false;
-      for (var i in shoppingCart){
-        if (shoppingCart[i].proizvodId == elementId) {
-          shoppingCart[i].proizvodKolicina += kolicina;
-          flag = true;
-        }
-=======
 function addItem (element) {
 
     var product = prepareElement(element);
@@ -460,7 +438,6 @@ function addItem (element) {
       if (shoppingCart[i].proizvodId == product.proizvodId) {
         shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
         addItemToCart = true;
->>>>>>> origin/master
       }
     }
     if(!addItemToCart){
@@ -470,9 +447,9 @@ function addItem (element) {
     document.getElementById("suma").innerHTML = suma + " rsd";
 
     //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
-    for (var j in shoppingCart) {
-      document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-    }
+//    for (var j in shoppingCart) {
+//      document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
+//    }
     //Kolicina se setuje na 1
     if (product.proizvodKolicina != 1) {
       document.getElementById(kolicinaId).value = 1;
