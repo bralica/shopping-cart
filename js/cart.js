@@ -1,6 +1,6 @@
 // FIXME[x]: oduzima i proizvode koji nisu u  korpi
 // FIXME: modal window se ne zatvara posto se doda proizvod
-// TODO: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
+// TODO[x]: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
 // TODO: formatirati cene koje stizu sa servera u citljiv oblik.
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
@@ -191,7 +191,7 @@ function showCategoriesInMenu (output) {
    document.getElementById('categoryNav').innerHTML = output;
 }
 
-//TODO: f-ja za uklanjanje proizvoda, prosledjuje se element(objekat) kao parametar documentGetElementById("");
+//TODO[x]: f-ja za uklanjanje proizvoda, prosledjuje se element(objekat) kao parametar documentGetElementById("");
 function removeChildElements (element){
    while (element.hasChildNodes()) {
     element.removeChild(element.firstChild);
@@ -213,7 +213,7 @@ function findInArray (id) {
   return false;
 }
 
-//NOTE: createProduct
+//NOTE[x]: createProduct
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
   createProduct(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
 });
@@ -330,9 +330,6 @@ function createProduct(imgPath, productPrice, productName, categoryId){
   else {
     cntProduct = numberOfProducts;
   }
-
-  //TODO: filter by category
-  //TODO: filter by ull text search
 
   var divColMd3 = document.createElement("div");
   divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
