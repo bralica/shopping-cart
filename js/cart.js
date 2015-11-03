@@ -7,11 +7,12 @@
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
 //TODO[x]: Employees - http://services.odata.org/V3/Northwind/Northwind.svc/Employees?$format=json
 //FIXME: Problems with EventListeners. Probaj da ih resis tako sto ce postojati f-ja prepareEventListeners koja ce biti zakacena na window.onload event
-
-
 //document.getElementById('loginButton').addEventListener("click", function () {
 //  loginUser(document.getElementById('firstName').value, document.getElementById('lastName').value);
 //});
+
+//TODO: Poruka o proizvodima u korpi u p#demo. Probaj kako ce da izgleda
+//TODO: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
 
 //---------- ONLOAD ----------
 function loadData(){
@@ -247,14 +248,10 @@ function getData(url, filter) {
        createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
     if (products[product].CategoryID == filter){
-
       createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
-
     }
     if (typeof filter == 'string') {
-
       if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
-
         createProduct(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
       }
     }
