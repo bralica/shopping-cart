@@ -412,11 +412,8 @@ function removeItem(element) {
   var kolicinaId = "kolicina" + product.proizvodId;
 
   //if(!findInArray(product.proizvodId)){alert("Proizvod se ne nalazi u korpi"); return false;}
-
   for (var i in shoppingCart) {
-
     if (shoppingCart[i].proizvodId == product.proizvodId) {
-
       if (shoppingCart[i].proizvodKolicina >= product.proizvodKolicina) {
         shoppingCart[i].proizvodKolicina = shoppingCart[i].proizvodKolicina - product.proizvodKolicina;
         suma = suma - (product.proizvodKolicina * product.proizvodCena);
