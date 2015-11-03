@@ -164,7 +164,6 @@ function getAndLoadCategoriesInMenu (url) {
   var output = "";
   for (var category in categories) {
 
-
      var categoryId   = categories[category].CategoryID;
      var categoryName = categories[category].CategoryName;
      //funkcija koja prikazuje kategorije, odnosno kreira select meni
