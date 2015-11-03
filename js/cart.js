@@ -445,10 +445,12 @@ function addItem (element) {
     if (shoppingCart[i].proizvodId == product.proizvodId) {
       shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
       addItemToCart = true;
+      //notification = shoppingCart.length+1
     }
   }
   if(!addItemToCart){
     insertProductInCart(product.proizvodId, product.proizvodCena, product.proizvodKolicina);
+    ////notification = shoppingCart.length+1
   }
   suma = suma + (product.proizvodCena * product.proizvodKolicina);
   document.getElementById("suma").innerHTML = suma + " rsd";
