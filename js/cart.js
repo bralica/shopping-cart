@@ -13,6 +13,7 @@
 
 //TODO: Poruka o proizvodima u korpi u p#demo. Probaj kako ce da izgleda
 //TODO: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
+//TODO: Definicija funkcija prvo pa tek onda pozivi.
 
 //---------- ONLOAD ----------
 function loadData(){
