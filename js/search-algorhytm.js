@@ -1,4 +1,3 @@
-
 //poziva se na klik dugmeta za pretragu
 function search(){
 
