@@ -420,9 +420,9 @@ function removeItem(element) {
       } else {
           alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
         }
-    } else {
-      alert("Proizvod se ne nalazi u korpi");
-    }
+    }  //else {
+//      alert("Proizvod se ne nalazi u korpi");
+//    }
   }
   document.getElementById("suma").innerHTML = suma + " rsd";
 
