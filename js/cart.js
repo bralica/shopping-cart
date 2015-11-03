@@ -437,28 +437,28 @@ function removeItem(element) {
 
 function addItem (element) {
 
-    var product = prepareElement(element);
-    var kolicinaId = "kolicina" + product.proizvodId;
+  var product = prepareElement(element);
+  var kolicinaId = "kolicina" + product.proizvodId;
 
-    var addItemToCart = false;
-    for (var i in shoppingCart){
-      if (shoppingCart[i].proizvodId == product.proizvodId) {
-        shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
-        addItemToCart = true;
-      }
+  var addItemToCart = false;
+  for (var i in shoppingCart){
+    if (shoppingCart[i].proizvodId == product.proizvodId) {
+      shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
+      addItemToCart = true;
     }
-    if(!addItemToCart){
-      insertProductInCart(product.proizvodId, product.proizvodCena, product.proizvodKolicina);
-    }
-    suma = suma + (product.proizvodCena * product.proizvodKolicina);
-    document.getElementById("suma").innerHTML = suma + " rsd";
-    //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
-    //    for (var j in shoppingCart) {
-    //      document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
-    //    }
+  }
+  if(!addItemToCart){
+    insertProductInCart(product.proizvodId, product.proizvodCena, product.proizvodKolicina);
+  }
+  suma = suma + (product.proizvodCena * product.proizvodKolicina);
+  document.getElementById("suma").innerHTML = suma + " rsd";
+  //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
+  //    for (var j in shoppingCart) {
+  //      document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
+  //    }
 
-    //Kolicina se setuje na 1
-    if (product.proizvodKolicina != 1) {
-      document.getElementById(kolicinaId).value = 1;
-    }
+  //Kolicina se setuje na 1
+  if (product.proizvodKolicina != 1) {
+    document.getElementById(kolicinaId).value = 1;
+  }
 }
