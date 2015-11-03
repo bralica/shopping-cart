@@ -24,7 +24,7 @@ function loadData(){
 // -------- LOGIN -------- //
 function checkLogin () {
   if (!sessionStorage.getItem("loggedUser")){
-    window.location.href= "index.html";
+    window.location.href = "index.html";
   }
 }
 
@@ -134,7 +134,6 @@ function findCategory (categories, filter) {
 
 }
 
-//NOTE:
 function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
@@ -228,7 +227,7 @@ document.getElementById('dodajNovProizvod').addEventListener("click", function()
 //NOTE: Load Service Data. Ovo je funkcija u koja kreira i prikazuje proizvode u odnosu na filter.
 function getData(url, filter) {
 
-  //TODO[x]: Funkcija za uklanjanje proizvoda
+  //[x]TODO[x]: Funkcija za uklanjanje proizvoda
   var divAddProduct = document.getElementById('addProduct');
 
   removeChildElements(divAddProduct);
