@@ -91,11 +91,18 @@
             <img src="images/logo.png" alt="logo">
           </div>
         </div>
-
-        <div class="col-md-3 col-md-offset-9">
+        <div class="col-md-9">
           <small id="loggedIn"></small>
           <a id="logout" class="btn btn-link text-left" onclick="logoutUser();"></a>
-          </p>
+          <button class="btn-link" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+                Dodaj proizvod
+              </button>
+          <h3>KATALOG PROIZVODA</h3>
+        </div>
+        <div class="col-md-3">
+<!--          <a class="btn btn-default btn-sm">KORPA</a>-->
+          <p class="lead" id="rezultat">ukupna suma: <span id="suma"></span></p>
+          <a><img src="images/cart-small.png" class="img-responsive" alt="korpa za kupovinu" width="50"></a>
         </div>
       </div>
     </div>
@@ -103,25 +110,10 @@
   <div class="container">
     <div class="row">
       <div class="col-md-5">
-        <h3>Katalog proizvoda</h3>
-        <p class="lead" id="rezultat">Ukupna suma: <span id="suma"></span></p>
       </div>
 
       <div class="col-md-4">
         <p id="demo"></p>
-      </div>
-
-      <div id="addButton" class="col-md-3 pull-right">
-        <!-- Button trigger modal -->
-        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
-          NOV PROIZVOD
-        </button>
-
-        <!--
-        <button class="btn btn-default btn-sm" onclick="">
-          UCITAJ PROIZVODE
-        </button>
--->
       </div>
 
     </div>
@@ -137,21 +129,22 @@
           <div class="modal-content">
 
             <!-- Modal Header -->
-            <div class="modal-header">
+            <div class="">
               <button type="button" class="close" data-dismiss="modal">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Zatvori</span>
               </button>
-              <h4 class="modal-title" id="myModalLabel">Unesite podatke za nov proizvod</h4>
+              <h4 class="modal-title" id="myModalLabel"></h4>
+<!--              <h4 class="" id="myModalLabel">Unesite podatke za nov proizvod</h4>-->
             </div>
 
             <!-- Modal Body -->
-            <div class="modal-body">
-              <div class="col-md-6">
+            <div class="">
+              <div class="col-md-12">
                 <h2><small>Unesite nov proizvod</small></h2>
                 <form action="#">
                   <div class="form-group">
-                    <label for="productName" class="col-sm-12 control-label">Unesite naziv proizvoda</label>
+                    <label for="productName" class="col-sm-12 control-label">Naziv proizvoda</label>
                     <input type="text" id="productName" class="form-control" placeholder="naziv proizvoda">
                   </div>
                   <div class="form-group">
@@ -170,7 +163,7 @@
                   </div>
                   <br>
                   <div class="form-group">
-                    <button class="btn btn-primary" type="button" id="dodajNovProizvod">Dodaj proizvod</button>
+                    <button class="btn btn-primary" type="button" id="dodajNovProizvod" data-dismiss="modal">Dodaj proizvod</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </form>
