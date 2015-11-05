@@ -18,6 +18,11 @@
 //FIXME: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
 //FIXME: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
 
+//FIXME: cntProduct, da bude productId. Dodaj proizvod sa cnt
+//FIXME: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
+//FIXME:
+
+
 //---------- ONLOAD ----------
 function loadData(){
   showCategoriesInMenu(getAndLoadCategoriesInMenu('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));
@@ -447,11 +452,6 @@ function removeItem(element) {
   var kolicinaId = "kolicina" + product.proizvodId;
   var propertyName = "proizvodId";
 
-//  if(document.getElementById('itemsInCart').innerHTML == "SADRŽAJ VAŠE KORPE ZA KUPOVINU" && (shoppingCart.length <= 0 || shoppingCart.length == undefined)){
-//    var divAddProduct = document.getElementById('AddProduct');
-//    removeChildElements(divAddProduct);
-//  }
-
   //FIXME: Pronadji nacin da utvrdis da li je element uopste u korpi. Ako se ne nalazi, ne moze ni da se ukloni. Poruka.
   //if(!findInArray(product.proizvodId, shoppingCart, propertyName)){alert("Proizvod se ne nalazi u korpi"); return false;}
   for (var i in shoppingCart) {
@@ -462,6 +462,7 @@ function removeItem(element) {
         if(suma < 0){suma = 0};
         if (shoppingCart[i].proizvodKolicina == 0) {
           shoppingCart.splice(i, 1);
+          $("#" + product.proizvodId).parent().remove();
         }
       } else {
           alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
@@ -625,5 +626,10 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   buttonTagRemove.setAttribute("onclick", "removeItem(this)");
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
+
+    $("#P" + productId).notify(
+  "I'm to the right of this box",
+  { position:"right" }
+);
 
 }
