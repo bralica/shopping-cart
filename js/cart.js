@@ -475,6 +475,7 @@ function removeItem(element) {
   if (product.proizvodKolicina  != 1) {
     document.getElementById(kolicinaId).value = 1;
   }
+  if(shoppingCart.length == 0){alert("Korpa je prazna");redirect();}
   //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
   //  for (var j in shoppingCart) {
   //    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
