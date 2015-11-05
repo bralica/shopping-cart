@@ -15,6 +15,8 @@
 //TODO: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
 //TODO: Definicija funkcija prvo pa tek onda pozivi.
 //TODO: Prikaz sadrzaja korpe.
+//FIXME: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
+//FIXME: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
 
 //---------- ONLOAD ----------
 function loadData(){
@@ -107,6 +109,29 @@ function takeCategory (id, categories) {
   for(var i in categories) {
     if(categories[i].CategoryID == id){
       return categories[i].CategoryName;
+    }
+  }
+}
+function takeProductName (id, products) {
+  for(var i in products) {
+    if(products[i].ProductID == id){
+      return products[i].ProductName;
+    }
+  }
+}
+function takeProductId (name, products) {
+  for(var i in products) {
+    if(products[i].ProductName == name){
+      return products[i].ProductID;
+    }
+  }
+}
+
+
+function takeCategoryIdFromProducts (id, products) {
+  for(var i in products) {
+    if(products[i].ProductID == id){
+      return products[i].CategoryID;
     }
   }
 }
@@ -213,6 +238,24 @@ function findInArray (id,targetedArray,propertyName) {
   return false;
 }
 
+//TODO: Priprema za upload slike
+
+//var imgPath = document.getElementById("imagePath");
+//var files = imgPath.files;
+//var file = files.item[0];
+//var imgName = file.name;
+//var fullPath = "images/" + imgName;
+
+//imagePath.addEventListener("change", handleFiles, false);
+//function handleFiles() {
+//  var fileList = this.files;
+//  var imgName = fileList.name;
+//  var fullPath = "images/" + imgName;
+//  return fullPath;
+//}
+//var fullPath = handleFiles();
+//debugger;
+
 //NOTE[x]: createProduct
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
   createProduct(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
@@ -254,7 +297,7 @@ function getData(url, filter) {
       }
     }
   }
-
+  document.getElementById('itemsInCart').innerHTML = "KATALOG PROIZVODA";
 }
 
 function getServiceData(url, username, password) {
@@ -404,6 +447,11 @@ function removeItem(element) {
   var kolicinaId = "kolicina" + product.proizvodId;
   var propertyName = "proizvodId";
 
+//  if(document.getElementById('itemsInCart').innerHTML == "SADRŽAJ VAŠE KORPE ZA KUPOVINU" && (shoppingCart.length <= 0 || shoppingCart.length == undefined)){
+//    var divAddProduct = document.getElementById('AddProduct');
+//    removeChildElements(divAddProduct);
+//  }
+
   //FIXME: Pronadji nacin da utvrdis da li je element uopste u korpi. Ako se ne nalazi, ne moze ni da se ukloni. Poruka.
   //if(!findInArray(product.proizvodId, shoppingCart, propertyName)){alert("Proizvod se ne nalazi u korpi"); return false;}
   for (var i in shoppingCart) {
@@ -431,6 +479,7 @@ function removeItem(element) {
   //  for (var j in shoppingCart) {
   //    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
   //  }
+
 }
 
 function addItem (element) {
@@ -442,6 +491,8 @@ function addItem (element) {
   for (var i in shoppingCart){
     if (shoppingCart[i].proizvodId == product.proizvodId) {
       shoppingCart[i].proizvodKolicina += product.proizvodKolicina;
+
+      var totalAmount = shoppingCart[i].proizvodKolicina;
       addItemToCart = true;
       //notification = shoppingCart.length+1
     }
@@ -458,7 +509,122 @@ function addItem (element) {
   //    }
 
   //Kolicina se setuje na 1
-  if (product.proizvodKolicina != 1) {
+  if (product.proizvodKolicina == 0) {
     document.getElementById(kolicinaId).value = 1;
   }
+
+}
+
+function showProductsInCart(url) {
+
+  //prvo izbrisi sve elemente
+  var divAddProduct = document.getElementById('addProduct');
+  removeChildElements(divAddProduct);
+
+  if(shoppingCart.length == 0 || shoppingCart.length == undefined){
+    alert("VAŠA KORPA JE PRAZNA"); redirect();
+  }
+
+  var allProducts = getServiceData(url).value;
+  //loop kroz shoppingCart i prikazi proizvode, sa notifikacijom za kolicinu
+  for (var i in shoppingCart) {
+
+    //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
+    var id = shoppingCart[i].proizvodId;
+    var regex = /(\d+)/g;
+    //ProductID
+    var productId = id.match(regex);
+
+    var productName = takeProductName(productId, allProducts);
+    var categoryId = takeCategoryIdFromProducts(productId, allProducts);
+    //take random image
+    var imgPath = takeImage(getRandomInt(1,4), slike);
+
+    //var categoryId = takeCategory();
+    createProductInCart(imgPath, shoppingCart[i].proizvodCena, shoppingCart[i].proizvodKolicina, productName, productId, categoryId);
+    document.getElementById('itemsInCart').innerHTML = "SADRŽAJ VAŠE KORPE ZA KUPOVINU";
+
+  }
+
+}
+
+
+function createProductInCart(imgPath, productPrice, productQuantity, productName, productId, categoryId) {
+
+  var divProductRow = document.getElementById('addProduct');
+  var numberOfProducts = document.getElementsByClassName('priceTag').length;
+
+  if(numberOfProducts == undefined || numberOfProducts == 0)  {
+    cntProduct = cntProduct;
+  }
+  else {
+    cntProduct = numberOfProducts;
+  }
+
+
+  var divColMd3 = document.createElement("div");
+  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
+  divProductRow.appendChild(divColMd3);
+
+  var prName = document.createElement("p");
+  prName.setAttribute("class", "product-title");
+  prName.innerHTML = productName;
+  divColMd3.appendChild(prName);
+
+  var categoryName = takeCategory(categoryId, categories);
+  var catName = document.createElement("p");
+  catName.setAttribute("class", "text-left category-title");
+  catName.innerHTML = categoryName;
+  divColMd3.appendChild(catName);
+
+  var productImage = document.createElement("img");
+  productImage.setAttribute("src", imgPath);
+  productImage.setAttribute("alt", "proizvod");
+  productImage.setAttribute("class", "img-responsive");
+  productImage.setAttribute("width", "200");
+  divColMd3.appendChild(productImage);
+
+  var valutaRSD = document.createElement("p");
+  valutaRSD.setAttribute("class", "valuta text-left");
+  valutaRSD.innerHTML = "rsd";
+  divColMd3.appendChild(valutaRSD);
+
+  cntProduct = cntProduct + 1;
+  var productPriceTag = document.createElement("p");
+  var idAttribute = "CenaP" + cntProduct; //na primer P6
+  productPriceTag.setAttribute("id", "cenaP" + productId);
+  productPriceTag.setAttribute("class", "priceTag");
+  productPriceTag.innerHTML = productPrice;
+  divColMd3.appendChild(productPriceTag);
+
+  var divClear = document.createElement("div");
+  divClear.setAttribute("class", "clr");
+  divColMd3.appendChild(divClear);
+
+  //Ovo treba da ide u NOTIFIKACIJU, tj. kolicinu proizvoda
+  var inputTag = document.createElement("input");
+  inputTag.setAttribute("type", "number");
+  inputTag.setAttribute("value", "1");
+  inputTag.setAttribute("id", "kolicinaP" + productId);
+  divColMd3.appendChild(inputTag);
+
+  var pTagKolicina = document.createElement("p");
+  pTagKolicina.setAttribute("class", "text-muted");
+  pTagKolicina.innerHTML = "kolicina";
+  divColMd3.appendChild(pTagKolicina);
+
+//  var buttonTagAdd = document.createElement("button");
+//  buttonTagAdd.setAttribute("class", "btn btn-success btn-sm");
+//  buttonTagAdd.setAttribute("id", "P" + cntProduct);
+//  buttonTagAdd.setAttribute("onclick", "addItem(this)");
+//  buttonTagAdd.innerHTML = "Dodaj u korpu";
+//  divColMd3.appendChild(buttonTagAdd);
+
+  var buttonTagRemove = document.createElement("button");
+  buttonTagRemove.setAttribute("class", "btn btn-danger btn-sm");
+  buttonTagRemove.setAttribute("id", "P" + productId);
+  buttonTagRemove.setAttribute("onclick", "removeItem(this)");
+  buttonTagRemove.innerHTML = "Ukloni iz korpe";
+  divColMd3.appendChild(buttonTagRemove);
+
 }

@@ -94,29 +94,30 @@
         <div class="col-md-9">
           <small id="loggedIn"></small>
           <a id="logout" class="btn btn-link text-left" onclick="logoutUser();"></a>
-          <button class="btn-link" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+          <a href="#" class="btn-link" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
                 Dodaj proizvod
-              </button>
-          <h3>KATALOG PROIZVODA</h3>
+              </a>
+          <h3 id="itemsInCart">KATALOG PROIZVODA</h3>
         </div>
         <div class="col-md-3">
 <!--          <a class="btn btn-default btn-sm">KORPA</a>-->
           <p class="lead" id="rezultat">ukupna suma: <span id="suma"></span></p>
-          <a><img src="images/cart-small.png" class="img-responsive" alt="korpa za kupovinu" width="50"></a>
+          <a href="#" onclick="showProductsInCart('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json')"><img src="images/cart-small.png" class="img-responsive" alt="korpa za kupovinu" width="50"></a>
         </div>
       </div>
     </div>
   </header>
+
   <div class="container">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-6 col-md-offset-3">
+        <p  class="lead"></p>
       </div>
-
-      <div class="col-md-4">
+      <div class="col-md-3">
         <p id="demo"></p>
       </div>
-
     </div>
+
     <div id="addProduct" class="row">
 
     </div>
@@ -148,8 +149,8 @@
                     <input type="text" id="productName" class="form-control" placeholder="naziv proizvoda">
                   </div>
                   <div class="form-group">
-                    <label for="imagePath" class="col-sm-12 control-label">Unesite putanju do slike</label>
-                    <input type="text" id="imagePath" class="form-control" placeholder="images/slika.jpg">
+                    <label for="imagePath" class="col-sm-12 control-label">Izaberite sliku</label>
+                    <input type="file" id="imagePath" class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="productPrice" class="col-sm-12 control-label">Unesite cenu</label>
