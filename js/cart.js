@@ -549,7 +549,6 @@ function showProductsInCart(url) {
 
 }
 
-
 function createProductInCart(imgPath, productPrice, productQuantity, productName, productId, categoryId) {
 
   var divProductRow = document.getElementById('addProduct');
@@ -561,7 +560,6 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   else {
     cntProduct = numberOfProducts;
   }
-
 
   var divColMd3 = document.createElement("div");
   divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
