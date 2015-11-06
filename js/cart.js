@@ -79,6 +79,8 @@ var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, 
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
 
+
+
 var suma = 0;
 var shoppingCart = [];
 
