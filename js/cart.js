@@ -20,7 +20,8 @@
 
 //FIXME: cntProduct, da bude productId. Dodaj proizvod sa cnt
 //FIXME: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
-//FIXME:
+//FIXME: notifikacija za kolicinu u korpi i notifikacija umesto alert-a kada je korpa prazna i kada je broj proizvoda koji se oduzima veci nego broj u korpi.
+//
 
 
 //---------- ONLOAD ----------
