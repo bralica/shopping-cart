@@ -12,16 +12,18 @@
 //});
 
 //TODO: Poruka o proizvodima u korpi u p#demo. Probaj kako ce da izgleda
-//TODO: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
+//TODO[x]: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
 //TODO: Definicija funkcija prvo pa tek onda pozivi.
-//TODO: Prikaz sadrzaja korpe.
+//TODO[x]: Prikaz sadrzaja korpe.
 //FIXME: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
 //FIXME: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
 
 //FIXME: cntProduct, da bude productId. Dodaj proizvod sa cnt
 //FIXME: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
 //FIXME: notifikacija za kolicinu u korpi i notifikacija umesto alert-a kada je korpa prazna i kada je broj proizvoda koji se oduzima veci nego broj u korpi.
-//
+//TODO: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
+//TODO: File upload koji ce da procita ime slike i da je prikaze.
+//TODO: Btter notifications for empty cart and no products in the cart
 
 
 //---------- ONLOAD ----------
@@ -79,6 +81,8 @@ document.getElementById('logout').innerHTML = "Logout";
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
+//make products global
+var products = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json').value;
 
 
 
@@ -113,6 +117,14 @@ function prepareElement (element) {
 }
 
 //---------- HELPER Functions for various tasks -------
+function takeQuantityFromCart(id, shoppingCart) {
+  for(var i in shoppingCart) {
+    if(shoppingCart[i].proizvodId == id) {
+        return shoppingCart[i].proizvodKolicina;
+    }
+  }
+}
+
 function takeCategory (id, categories) {
   for(var i in categories) {
     if(categories[i].CategoryID == id){
@@ -120,6 +132,7 @@ function takeCategory (id, categories) {
     }
   }
 }
+
 function takeProductName (id, products) {
   for(var i in products) {
     if(products[i].ProductID == id){
@@ -127,6 +140,7 @@ function takeProductName (id, products) {
     }
   }
 }
+
 function takeProductId (name, products) {
   for(var i in products) {
     if(products[i].ProductName == name){
@@ -134,7 +148,6 @@ function takeProductId (name, products) {
     }
   }
 }
-
 
 function takeCategoryIdFromProducts (id, products) {
   for(var i in products) {
@@ -284,7 +297,7 @@ function getData(url, filter) {
   removeChildElements(divAddProduct);
 
   //inicijalizuj filter
-  var products = getServiceData(url).value;
+  //var products = getServiceData(url).value;
 
   for (var product in products) {
 
@@ -551,6 +564,7 @@ function showProductsInCart(url) {
 
   }
 
+
 }
 
 function createProductInCart(imgPath, productPrice, productQuantity, productName, productId, categoryId) {
@@ -566,7 +580,7 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   }
 
   var divColMd3 = document.createElement("div");
-  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
+  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn in-cart");
   divProductRow.appendChild(divColMd3);
 
   var prName = document.createElement("p");
@@ -630,9 +644,20 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
 
-    $("#P" + productId).notify(
-  "I'm to the right of this box",
-  { position:"right" }
-);
+  //uzmi kolicinu iz korpe
+  //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
+  //var id = shoppingCart[i].proizvodId;
+  //var regex = /(\d+)/g;
+  //ProductID
+  //productId = productId.match(regex);
+  var pID = "P" + productId;
+  var quantity = takeQuantityFromCart(pID, shoppingCart);
+  debugger;
+
+  //Notification for products in cart. Selector is button, position right side.
+  $("#P" + productId).parent().notify(
+    productQuantity, { position:"top left", autoHide: false, clickToHide: false, className: "success"}
+  );
+
 
 }
