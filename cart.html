@@ -17,6 +17,7 @@
   <meta name="description" content="projektat shopping cart">
   <meta name="author" content="Vladimir Tesic">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/united.bootstrap-theme.css">
   <link rel="stylesheet" href="css/style.css">
@@ -159,6 +160,15 @@
                     <input type="number" id="productPrice" class="form-control" placeholder="23500">
                   </div>
                   <div class="form-group">
+                    <label for="fromDate" class="col-sm-6 control-label">Vazi od</label>
+                    <input type="text" id="fromDate" class="form-control" placeholder="vazi od">
+                  </div>
+                  <div class="form-group">
+                    <label for="toDate" class="col-sm-6 control-label">Vazi do</label>
+                    <input type="text" id="toDate" class="form-control" placeholder="vazi do">
+                  </div>
+
+                  <div class="form-group">
                     <label for="categoryName" class="col-sm-12 control-label">Odaberite kategoriju proizvoda</label>
                     <select class="form-control" id="categoryName">
 
@@ -189,7 +199,13 @@
       <script src="js/jquery-2.1.4.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/notify.min.js"></script>
+      <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
       <script src="js/cart.js"></script>
+      <script>
+        $("#fromDate").datepicker();
+        $("#toDate").datepicker();
+      </script>
+
     </div>
   </div>
   <footer id="footer-main" class="container-fluid">

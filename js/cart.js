@@ -285,8 +285,10 @@ function maxInArray (targetArray) {
 //debugger;
 
 //NOTE[x]: createProduct
+//define productIdFromForm to be 0
+var productIdFromForm = 0;
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
-  createProduct(document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
+  createProduct(productIdFromForm, document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
 });
 
 //NOTE: Ne radi event listener? Proveri!Opis na vrhu
@@ -314,14 +316,14 @@ function getData(url, filter) {
     //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
     if (filter == undefined || filter == "") {
        filter = 0;
-       createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+       createProduct(products[product].ProductID, imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
     if (products[product].CategoryID == filter){
-      createProduct(imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
+      createProduct(products[product].ProductID, imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
     if (typeof filter == 'string') {
       if(products[product].ProductName.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || catName.toLowerCase().indexOf(filter.toLowerCase()) >= 0) {
-        createProduct(imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
+        createProduct(products[product].ProductID, imgPath, products[product].UnitPrice, products[product].ProductName, products[product].CategoryID);
       }
     }
   }
@@ -390,21 +392,19 @@ function getAndLoadCategoriesInMenu (url) {
   return output;
 }
 
-function createProduct(imgPath, productPrice, productName, categoryId){
+function createProduct(productId, imgPath, productPrice, productName, categoryId){
 
   var divProductRow = document.getElementById('addProduct');
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
 
-  if(numberOfProducts == undefined || numberOfProducts == 0)  {
-    //unesi productId sa web service-a
-    //cntProduct = takeProductId(productName, products);
-    cntProduct = cntProduct;
+
+  //doda se jos jedan argument proizvodId i pita se da li je undefined ili null i onda se utvrdi da li da zovemo
+  if(productId == undefined || productId == 0)  {
+    cntProduct = numberOfProducts + 1;
   }
   else {
     //nov proizvod sa forme;
-    //var maxId = maxInArray(products);
-    //cntProduct = maxId + 1;
-    cntProduct = numberOfProducts;
+    cntProduct = productId;
   }
 
   var divColMd3 = document.createElement("div");
@@ -434,7 +434,13 @@ function createProduct(imgPath, productPrice, productName, categoryId){
   valutaRSD.innerHTML = "rsd";
   divColMd3.appendChild(valutaRSD);
 
-  cntProduct = cntProduct + 1;
+//  if(productId == undefined || productId == 0)  {
+//    cntProduct = cntProduct + 1;
+//  }
+//  else {
+//    cntProduct = productId;
+//  }
+
   var productPriceTag = document.createElement("p");
   var idAttribute = "CenaP" + cntProduct; //na primer P6
   productPriceTag.setAttribute("id", "cenaP" + cntProduct);
@@ -479,6 +485,9 @@ function removeItem(element) {
   var product = prepareElement(element);
   var kolicinaId = "kolicina" + product.proizvodId;
   var propertyName = "proizvodId";
+
+  //obrisati element
+
 
   //FIXME: Pronadji nacin da utvrdis da li je element uopste u korpi. Ako se ne nalazi, ne moze ni da se ukloni. Poruka.
   //if(!findInArray(product.proizvodId, shoppingCart, propertyName)){alert("Proizvod se ne nalazi u korpi"); return false;}
@@ -656,14 +665,13 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
 
-<<<<<<< HEAD
+
 
 //    $("#P" + productId).notify(
 //      "I'm to the right of this box", { position:"right" }
 //);
 
-=======
->>>>>>> origin/master
+
   //uzmi kolicinu iz korpe
   //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
   //var id = shoppingCart[i].proizvodId;
@@ -680,8 +688,4 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   );
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 }
