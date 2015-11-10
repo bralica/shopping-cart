@@ -656,11 +656,14 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
 
+<<<<<<< HEAD
 
 //    $("#P" + productId).notify(
 //      "I'm to the right of this box", { position:"right" }
 //);
 
+=======
+>>>>>>> origin/master
   //uzmi kolicinu iz korpe
   //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
   //var id = shoppingCart[i].proizvodId;
@@ -677,5 +680,8 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   );
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 }
