@@ -12,11 +12,19 @@
 //});
 
 //TODO: Poruka o proizvodima u korpi u p#demo. Probaj kako ce da izgleda
-//TODO: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
+//TODO[x]: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
 //TODO: Definicija funkcija prvo pa tek onda pozivi.
-//TODO: Prikaz sadrzaja korpe.
+//TODO[x]: Prikaz sadrzaja korpe.
 //FIXME: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
 //FIXME: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
+
+//FIXME: cntProduct, da bude productId. Dodaj proizvod sa cnt
+//FIXME: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
+//FIXME: notifikacija za kolicinu u korpi i notifikacija umesto alert-a kada je korpa prazna i kada je broj proizvoda koji se oduzima veci nego broj u korpi.
+//TODO: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
+//TODO: File upload koji ce da procita ime slike i da je prikaze.
+//TODO: Btter notifications for empty cart and no products in the cart
+
 
 //---------- ONLOAD ----------
 function loadData(){
@@ -73,6 +81,8 @@ document.getElementById('logout').innerHTML = "Logout";
 var slike = [{id:1, path: "images/1.jpg"}, {id:2, path: "images/2.jpg"}, {id:3, path: "images/3.jpg"}, {id:4, path: "images/4.jpg"}];
 var cntProduct = 0;
 var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json').value;
+//make products global
+var products = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json').value;
 
 var suma = 0;
 var shoppingCart = [];
@@ -80,7 +90,7 @@ var shoppingCart = [];
 var filter = 0;
 
 //---------- INICIJALIZACIJA PRODUCT OBJEKTA ----------
-//konstruktor za novi proizvod
+//konstruktor za novi objekat proizvod. Trebalo bi da se prosiri.
 function Product (id, cena, kolicina){
   this.proizvodId   = id;
   this.proizvodCena = cena;
@@ -105,6 +115,14 @@ function prepareElement (element) {
 }
 
 //---------- HELPER Functions for various tasks -------
+function takeQuantityFromCart(id, shoppingCart) {
+  for(var i in shoppingCart) {
+    if(shoppingCart[i].proizvodId == id) {
+        return shoppingCart[i].proizvodKolicina;
+    }
+  }
+}
+
 function takeCategory (id, categories) {
   for(var i in categories) {
     if(categories[i].CategoryID == id){
@@ -112,6 +130,7 @@ function takeCategory (id, categories) {
     }
   }
 }
+
 function takeProductName (id, products) {
   for(var i in products) {
     if(products[i].ProductID == id){
@@ -119,6 +138,7 @@ function takeProductName (id, products) {
     }
   }
 }
+
 function takeProductId (name, products) {
   for(var i in products) {
     if(products[i].ProductName == name){
@@ -126,7 +146,6 @@ function takeProductId (name, products) {
     }
   }
 }
-
 
 function takeCategoryIdFromProducts (id, products) {
   for(var i in products) {
@@ -238,6 +257,15 @@ function findInArray (id,targetedArray,propertyName) {
   return false;
 }
 
+function maxInArray (targetArray) {
+  var max = 0;
+  for (var i in targetArray){
+    if(targetArray[i].ProductID > max){
+      max = targetArray[i].ProductID;
+    }
+  }
+  return max;
+}
 //TODO: Priprema za upload slike
 
 //var imgPath = document.getElementById("imagePath");
@@ -276,7 +304,7 @@ function getData(url, filter) {
   removeChildElements(divAddProduct);
 
   //inicijalizuj filter
-  var products = getServiceData(url).value;
+  //var products = getServiceData(url).value;
 
   for (var product in products) {
 
@@ -368,9 +396,14 @@ function createProduct(imgPath, productPrice, productName, categoryId){
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
 
   if(numberOfProducts == undefined || numberOfProducts == 0)  {
+    //unesi productId sa web service-a
+    //cntProduct = takeProductId(productName, products);
     cntProduct = cntProduct;
   }
   else {
+    //nov proizvod sa forme;
+    //var maxId = maxInArray(products);
+    //cntProduct = maxId + 1;
     cntProduct = numberOfProducts;
   }
 
@@ -447,11 +480,6 @@ function removeItem(element) {
   var kolicinaId = "kolicina" + product.proizvodId;
   var propertyName = "proizvodId";
 
-//  if(document.getElementById('itemsInCart').innerHTML == "SADRŽAJ VAŠE KORPE ZA KUPOVINU" && (shoppingCart.length <= 0 || shoppingCart.length == undefined)){
-//    var divAddProduct = document.getElementById('AddProduct');
-//    removeChildElements(divAddProduct);
-//  }
-
   //FIXME: Pronadji nacin da utvrdis da li je element uopste u korpi. Ako se ne nalazi, ne moze ni da se ukloni. Poruka.
   //if(!findInArray(product.proizvodId, shoppingCart, propertyName)){alert("Proizvod se ne nalazi u korpi"); return false;}
   for (var i in shoppingCart) {
@@ -462,6 +490,7 @@ function removeItem(element) {
         if(suma < 0){suma = 0};
         if (shoppingCart[i].proizvodKolicina == 0) {
           shoppingCart.splice(i, 1);
+          $("#" + product.proizvodId).parent().remove();
         }
       } else {
           alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
@@ -547,6 +576,7 @@ function showProductsInCart(url) {
 
   }
 
+
 }
 
 function createProductInCart(imgPath, productPrice, productQuantity, productName, productId, categoryId) {
@@ -562,7 +592,7 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   }
 
   var divColMd3 = document.createElement("div");
-  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn");
+  divColMd3.setAttribute("class", "col-md-3 col-sm-6 introFadeIn in-cart");
   divProductRow.appendChild(divColMd3);
 
   var prName = document.createElement("p");
@@ -625,5 +655,27 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   buttonTagRemove.setAttribute("onclick", "removeItem(this)");
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
+
+<<<<<<< HEAD
+    $("#P" + productId).notify(
+      "I'm to the right of this box", { position:"right" }
+);
+=======
+  //uzmi kolicinu iz korpe
+  //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
+  //var id = shoppingCart[i].proizvodId;
+  //var regex = /(\d+)/g;
+  //ProductID
+  //productId = productId.match(regex);
+  var pID = "P" + productId;
+  var quantity = takeQuantityFromCart(pID, shoppingCart);
+  debugger;
+
+  //Notification for products in cart. Selector is button, position right side.
+  $("#P" + productId).parent().notify(
+    productQuantity, { position:"top left", autoHide: false, clickToHide: false, className: "success"}
+  );
+
+>>>>>>> origin/master
 
 }
