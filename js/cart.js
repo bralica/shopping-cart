@@ -84,15 +84,13 @@ var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwin
 //make products global
 var products = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json').value;
 
-
-
 var suma = 0;
 var shoppingCart = [];
 
 var filter = 0;
 
 //---------- INICIJALIZACIJA PRODUCT OBJEKTA ----------
-//konstruktor za novi proizvod
+//konstruktor za novi objekat proizvod. Trebalo bi da se prosiri.
 function Product (id, cena, kolicina){
   this.proizvodId   = id;
   this.proizvodCena = cena;
@@ -259,6 +257,15 @@ function findInArray (id,targetedArray,propertyName) {
   return false;
 }
 
+function maxInArray (targetArray) {
+  var max = 0;
+  for (var i in targetArray){
+    if(targetArray[i].ProductID > max){
+      max = targetArray[i].ProductID;
+    }
+  }
+  return max;
+}
 //TODO: Priprema za upload slike
 
 //var imgPath = document.getElementById("imagePath");
@@ -389,9 +396,14 @@ function createProduct(imgPath, productPrice, productName, categoryId){
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
 
   if(numberOfProducts == undefined || numberOfProducts == 0)  {
+    //unesi productId sa web service-a
+    //cntProduct = takeProductId(productName, products);
     cntProduct = cntProduct;
   }
   else {
+    //nov proizvod sa forme;
+    //var maxId = maxInArray(products);
+    //cntProduct = maxId + 1;
     cntProduct = numberOfProducts;
   }
 
