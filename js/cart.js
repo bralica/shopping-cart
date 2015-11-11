@@ -74,6 +74,7 @@ function redirect () {
 }
 
 var uName = sessionStorage.getItem("loggedUser");
+
 document.getElementById('loggedIn').innerHTML = "Welcome, " + uName + "!";
 document.getElementById('logout').innerHTML = "Logout";
 
