@@ -563,6 +563,8 @@ function showProductsInCart(url) {
 
   if(shoppingCart.length == 0 || shoppingCart.length == undefined){
     alert("VAŠA KORPA JE PRAZNA"); redirect();
+//    $.notify("VAŠA KORPA JE PRAZNA", {position:"top center", autoHide: false, clickToHide: false,  className: "warn"});
+
   }
 
   var allProducts = getServiceData(url).value;
