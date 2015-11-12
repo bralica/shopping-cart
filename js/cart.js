@@ -24,6 +24,7 @@
 //TODO: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
 //TODO: File upload koji ce da procita ime slike i da je prikaze.
 //TODO: Btter notifications for empty cart and no products in the cart
+//TODO: Define functions before calling them
 
 
 //---------- ONLOAD ----------
@@ -85,17 +86,25 @@ var categories = getServiceData('http://services.odata.org/V3/Northwind/Northwin
 //make products global
 var products = getServiceData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json').value;
 
+
 var suma = 0;
+//korpa za kupovinu.
 var shoppingCart = [];
 
 var filter = 0;
 
 //---------- INICIJALIZACIJA PRODUCT OBJEKTA ----------
 //konstruktor za novi objekat proizvod. Trebalo bi da se prosiri.
-function Product (id, cena, kolicina){
-  this.proizvodId   = id;
+function Product (id, cena, kolicina, catId, catName, productName, fromDate, toDate ){
+  this.proizvodId   = id;//P1, P2, P3, ...
   this.proizvodCena = cena;
   this.proizvodKolicina = kolicina;
+  this.proizvodKid = catId;
+  this.proizvodKnaziv = catName;
+  this.proizvodNaziv = productName;
+  this.vaziOd = fromDate;
+  this.vaziDo = toDate;
+
 }
 
 //priprema element za dalju obradu i vraca objekat sa setovanim vrednostima
@@ -289,8 +298,12 @@ function maxInArray (targetArray) {
 //define productIdFromForm to be 0
 var productIdFromForm = 0;
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
-  createProduct(productIdFromForm, document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value);
+  createProduct(productIdFromForm, document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value, document.getElementById("fromDate").value, document.getElementById("toDate").value);
 });
+
+var fromDate = document.getElementById('fromDate').value;
+var toDate = document.getElementById('toDate').value;
+//alert(fromDate);
 
 //NOTE: Ne radi event listener? Proveri!Opis na vrhu
 //document.getElementById('searchField').addEventListener("onkeyup", function(){
@@ -313,6 +326,8 @@ function getData(url, filter) {
 
     var imgPath = takeImage(getRandomInt(1,4), slike);
     var catName = takeCategory(products[product].CategoryID, categories);
+    var fromDate = products[product].fromDate;
+    var toDate = products[product].toDate;
 
     //procesiraj filter da se kreiraju samo oni proizvodi koji zadovoljavaju kreiterijum.
     if (filter == undefined || filter == "") {
@@ -320,6 +335,7 @@ function getData(url, filter) {
        createProduct(products[product].ProductID, imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
     if (products[product].CategoryID == filter){
+
       createProduct(products[product].ProductID, imgPath, products[product].UnitPrice, products[product].ProductName,products[product].CategoryID);
     }
     if (typeof filter == 'string') {
@@ -393,7 +409,7 @@ function getAndLoadCategoriesInMenu (url) {
   return output;
 }
 
-function createProduct(productId, imgPath, productPrice, productName, categoryId){
+function createProduct(productId, imgPath, productPrice, productName, categoryId, fromDate, toDate){
 
   var divProductRow = document.getElementById('addProduct');
   var numberOfProducts = document.getElementsByClassName('priceTag').length;
@@ -402,8 +418,10 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
   //doda se jos jedan argument proizvodId i pita se da li je undefined ili null i onda se utvrdi da li da zovemo
   if(productId == undefined || productId == 0)  {
     cntProduct = numberOfProducts + 1;
+    var newProduct = true;
   }
   else {
+    newProduct = false;
     //nov proizvod sa forme;
     cntProduct = productId;
   }
@@ -422,6 +440,20 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
   catName.setAttribute("class", "text-left category-title");
   catName.innerHTML = categoryName;
   divColMd3.appendChild(catName);
+
+  if(newProduct){
+
+    var vaziOd = document.createElement("p");
+    vaziOd.setAttribute("class", "text-left product-date");
+    vaziOd.innerHTML = "Vazi od " + fromDate;
+    divColMd3.appendChild(vaziOd);
+
+    var vaziDo = document.createElement("p");
+    vaziDo.setAttribute("class", "text-left product-date");
+    vaziDo.innerHTML = "Vazi do " + toDate;
+    divColMd3.appendChild(vaziDo);
+
+  }
 
   var productImage = document.createElement("img");
   productImage.setAttribute("src", imgPath);
@@ -477,6 +509,14 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
   buttonTagRemove.setAttribute("onclick", "removeItem(this)");
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
+
+  //dodaj nov proizvod u globalni niz products
+  if(newProduct){
+    //function Product (id, cena, kolicina, catId, catName, productName, fromDate, toDate)
+    var product = new Product(cntProduct, productPrice, 1, categoryId ,categoryName, productName, fromDate, toDate);
+    products.push(product);
+
+  }
 
 }
 
