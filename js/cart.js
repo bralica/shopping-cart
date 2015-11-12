@@ -94,16 +94,39 @@ var shoppingCart = [];
 var filter = 0;
 
 //---------- INICIJALIZACIJA PRODUCT OBJEKTA ----------
-//konstruktor za novi objekat proizvod. Trebalo bi da se prosiri.
-function Product (id, cena, kolicina, catId, catName, productName, fromDate, toDate ){
+//konstruktor za novi objekat proizvod koji se unosi u korpu. Trebalo bi da se prosiri.
+function Product (id, cena, kolicina){
   this.proizvodId   = id;//P1, P2, P3, ...
   this.proizvodCena = cena;
   this.proizvodKolicina = kolicina;
-  this.proizvodKid = catId;
-  this.proizvodKnaziv = catName;
-  this.proizvodNaziv = productName;
-  this.vaziOd = fromDate;
-  this.vaziDo = toDate;
+
+}
+//Proizvod koji ide u globalni niz proizvodi
+function newProductInArray (categoryId, discontinued, productId, productName, quantityPerUnit, reorderLevel, supplierId, unitPrice, unitsInStock, unitsOnOrder, fromDate, toDate){
+  this.CategoryID   = categoryId;
+  this.Discontinued = discontinued;
+  this.ProductID = productId;
+  this.ProductName = productName;
+  this.QuantityPerUnit = quantityPerUnit;
+  this.ReorderLevel = reorderLevel;
+  this.SupplierID = supplierId;
+  this.UnitPrice = unitPrice;
+  this.UnitsInStock = unitsInStock;
+  this.UnitsOnOrder = unitsOnOrder;
+  this.DateFrom = fromDate;
+  this.DateTo = toDate;
+
+//CategoryID: 1
+//Discontinued: false
+//ProductID: 1
+//ProductName: "Chai"
+//QuantityPerUnit: "10 boxes x 20 bags"
+//ReorderLevel: 10
+//SupplierID: 1
+//UnitPrice: "18.0000"
+//UnitsInStock: 39
+//UnitsOnOrder: 0
+
 
 }
 
@@ -277,6 +300,11 @@ function maxInArray (targetArray) {
   return max;
 }
 //TODO: Priprema za upload slike
+
+function removeElementAndRefreshCart (element) {
+  removeItem(element);
+  showProductsInCart();
+}
 
 //var imgPath = document.getElementById("imagePath");
 //var files = imgPath.files;
@@ -512,8 +540,8 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
 
   //dodaj nov proizvod u globalni niz products
   if(newProduct){
-    //function Product (id, cena, kolicina, catId, catName, productName, fromDate, toDate)
-    var product = new Product(cntProduct, productPrice, 1, categoryId ,categoryName, productName, fromDate, toDate);
+    //function newProductInArray (categoryId, discontinued, productId, productName, quantityPerUnit, reorderLevel, supplierId, unitPrice, unitsInStock, unitsOnOrder, fromDate, toDate)
+    var product = new newProductInArray(categoryId, false, cntProduct, productName ," ", 10, 1, productPrice, 100, 0, fromDate, toDate);
     products.push(product);
 
   }
@@ -595,7 +623,7 @@ function addItem (element) {
 
 }
 
-function showProductsInCart(url) {
+function showProductsInCart() {
 
   //prvo izbrisi sve elemente
   var divAddProduct = document.getElementById('addProduct');
@@ -607,7 +635,8 @@ function showProductsInCart(url) {
 
   }
 
-  var allProducts = getServiceData(url).value;
+  //var allProducts = getServiceData(url).value;
+  var allProducts = products;
   //loop kroz shoppingCart i prikazi proizvode, sa notifikacijom za kolicinu
   for (var i in shoppingCart) {
 
@@ -704,7 +733,7 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   var buttonTagRemove = document.createElement("button");
   buttonTagRemove.setAttribute("class", "btn btn-danger btn-sm");
   buttonTagRemove.setAttribute("id", "P" + productId);
-  buttonTagRemove.setAttribute("onclick", "removeItem(this)");
+  buttonTagRemove.setAttribute("onclick", "removeElementAndRefreshCart(this)");
   buttonTagRemove.innerHTML = "Ukloni iz korpe";
   divColMd3.appendChild(buttonTagRemove);
 
@@ -727,7 +756,7 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
 
   //Notification for products in cart. Selector is button, position right side.
   $("#P" + productId).parent().notify(
-    productQuantity, { position:"top left", autoHide: false, clickToHide: false, className: "success"}
+    productQuantity , {position:"top left", autoHide: false, clickToHide: false, className: "success"}
   );
 
 
