@@ -608,10 +608,14 @@ function showProductsInCart() {
     //alert("VAŠA KORPA JE PRAZNA"); redirect();
 
       $("#dialog-message").dialog({
+        open: function(event, ui) {
+          $(".ui-dialog-titlebar-close").hide();
+        },
         modal: true,
+        //autoOpen:false,
         buttons: {
           Ok: function() {
-            $( this ).dialog("close");
+            $(this).dialog("close");
             redirect();
           }
         }
