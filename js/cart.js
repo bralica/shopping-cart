@@ -1,7 +1,7 @@
-// FIXME[x]: oduzima i proizvode koji nisu u  korpi
-// FIXME: modal window se ne zatvara posto se doda proizvod
-// TODO[x]: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
-// TODO: formatirati cene koje stizu sa servera u citljiv oblik.
+//FIXME[x]: oduzima i proizvode koji nisu u  korpi
+//FIXME: modal window se ne zatvara posto se doda proizvod
+//TODO[x]: napraviti funkcije za svaki deo koda koji je reusable; razbiti kod na sto manje delove
+//TODO: formatirati cene koje stizu sa servera u citljiv oblik.
 //{"CategoryID":1,"CategoryName":"Beverages","Description":"Soft drinks, coffees, teas, beers, and ales"}
 //PROIZVODI http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json
 //example http://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
@@ -15,16 +15,15 @@
 //TODO[x]: Pokusaj da se ukloni proizvod pre nego sto se uopste doda.
 //TODO: Definicija funkcija prvo pa tek onda pozivi.
 //TODO[x]: Prikaz sadrzaja korpe.
-//FIXME: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
-//FIXME: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
+//FIXME[x]: Prosiriti sadrzaj objekta Product koji se cuva u korpi radi prikaza.Dodati jos neke vrednosti, kao sto su categoryID i productNAME i real ProductID
+//FIXME[x]: Voditi racuna da se ne pomesa ProductID regularan sa proizvodId-jem koji se koristi za prikupljanje podataka iz html-a
 
-//FIXME: cntProduct, da bude productId. Dodaj proizvod sa cnt
-//FIXME: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
-//FIXME: notifikacija za kolicinu u korpi i notifikacija umesto alert-a kada je korpa prazna i kada je broj proizvoda koji se oduzima veci nego broj u korpi.
-//TODO: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
-//TODO: File upload koji ce da procita ime slike i da je prikaze.
-//TODO: Btter notifications for empty cart and no products in the cart
-//TODO: Define functions before calling them
+//FIXME[x]: cntProduct, da bude productId. Dodaj proizvod sa cnt
+//FIXME[x]: global array products. Da bi proizvod koji mi dodamo bio u pretrazi.
+//FIXME[x]: notifikacija za kolicinu u korpi i notifikacija umesto alert-a kada je korpa prazna i kada je broj proizvoda koji se oduzima veci nego broj u korpi.
+//TODO[x]: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
+//TODO[x]: File upload koji ce da procita ime slike i da je prikaze.
+//TODO[x]: Better notifications for empty cart and no products in the cart
 
 
 //---------- ONLOAD ----------
@@ -115,7 +114,7 @@ function newProductInArray (categoryId, discontinued, productId, productName, qu
   this.UnitsOnOrder = unitsOnOrder;
   this.DateFrom = fromDate;
   this.DateTo = toDate;
-
+}
 //CategoryID: 1
 //Discontinued: false
 //ProductID: 1
@@ -127,8 +126,6 @@ function newProductInArray (categoryId, discontinued, productId, productName, qu
 //UnitsInStock: 39
 //UnitsOnOrder: 0
 
-
-}
 
 //priprema element za dalju obradu i vraca objekat sa setovanim vrednostima
 function prepareElement (element) {
@@ -306,27 +303,12 @@ function removeElementAndRefreshCart (element) {
   showProductsInCart();
 }
 
-//var imgPath = document.getElementById("imagePath");
-//var files = imgPath.files;
-//var file = files.item[0];
-//var imgName = file.name;
-//var fullPath = "images/" + imgName;
-
-//imagePath.addEventListener("change", handleFiles, false);
-//function handleFiles() {
-//  var fileList = this.files;
-//  var imgName = fileList.name;
-//  var fullPath = "images/" + imgName;
-//  return fullPath;
-//}
-//var fullPath = handleFiles();
-//debugger;
 
 //NOTE[x]: createProduct
 //define productIdFromForm to be 0
 var productIdFromForm = 0;
 document.getElementById('dodajNovProizvod').addEventListener("click", function(){
-  createProduct(productIdFromForm, document.getElementById('imagePath').value, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value, document.getElementById("fromDate").value, document.getElementById("toDate").value);
+  createProduct(productIdFromForm, document.getElementById('imagePath').files[0].name, document.getElementById('productPrice').valueAsNumber,document.getElementById("productName").value,document.getElementById("categoryName").value, document.getElementById("fromDate").value, document.getElementById("toDate").value);
 });
 
 var fromDate = document.getElementById('fromDate').value;
@@ -469,19 +451,21 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
   catName.innerHTML = categoryName;
   divColMd3.appendChild(catName);
 
-  if(newProduct){
+  if(newProduct)
+  {
 
     var vaziOd = document.createElement("p");
     vaziOd.setAttribute("class", "text-left product-date");
-    vaziOd.innerHTML = "Vazi od " + fromDate;
+    vaziOd.innerHTML = "Važi od: " + fromDate + " <br>Važi do: " + toDate;
     divColMd3.appendChild(vaziOd);
 
-    var vaziDo = document.createElement("p");
-    vaziDo.setAttribute("class", "text-left product-date");
-    vaziDo.innerHTML = "Vazi do " + toDate;
-    divColMd3.appendChild(vaziDo);
-
+//    var vaziDo = document.createElement("p");
+//    vaziDo.setAttribute("class", "text-left product-date");
+//    vaziDo.innerHTML = "Vazi do " + toDate;
+//    divColMd3.appendChild(vaziDo);
   }
+
+  if(newProduct){imgPath = "images/" + imgPath;}
 
   var productImage = document.createElement("img");
   productImage.setAttribute("src", imgPath);
@@ -573,7 +557,7 @@ function removeItem(element) {
   if (product.proizvodKolicina  != 1) {
     document.getElementById(kolicinaId).value = 1;
   }
-  //if(shoppingCart.length == 0){alert("Korpa je prazna");redirect();}
+
   //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
   //  for (var j in shoppingCart) {
   //    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";

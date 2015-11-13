@@ -92,14 +92,14 @@
       <div class="row">
         <div class="col-md-12">
           <div id="logo">
-            <a href="#"><img src="images/logo.png" alt="logo"></a>
+            <a href="#" id="0" onclick="getData('http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json',0)"><img src="images/logo.png" alt="logo"></a>
           </div>
         </div>
         <div class="col-md-9">
           <small id="loggedIn"></small>
           <a id="logout" class="btn btn-link text-left" onclick="logoutUser();"></a>
-          <a href="#" class="btn-link" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
-                Dodaj proizvod
+          <a href="#" class="btn-link btn-dodaj" data-toggle="modal" data-target="#addNewProduct" id="showModalForm" onclick="showCategories(getAndLoadCategories('http://services.odata.org/V3/Northwind/Northwind.svc/Categories?$format=json'));">
+                DODAJ PROIZVOD
               </a>
           <h3 id="itemsInCart">KATALOG PROIZVODA</h3>
         </div>
@@ -207,7 +207,7 @@
       <script src="js/bootstrap.min.js"></script>
       <script src="js/notify.min.js"></script>
       <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-      <script src="http//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
       <script src="js/cart.js"></script>
       <script>
