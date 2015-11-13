@@ -495,13 +495,6 @@ function createProduct(productId, imgPath, productPrice, productName, categoryId
   valutaRSD.innerHTML = "rsd";
   divColMd3.appendChild(valutaRSD);
 
-//  if(productId == undefined || productId == 0)  {
-//    cntProduct = cntProduct + 1;
-//  }
-//  else {
-//    cntProduct = productId;
-//  }
-
   var productPriceTag = document.createElement("p");
   var idAttribute = "CenaP" + cntProduct; //na primer P6
   productPriceTag.setAttribute("id", "cenaP" + cntProduct);
@@ -556,8 +549,6 @@ function removeItem(element) {
   var propertyName = "proizvodId";
 
   //obrisati element
-
-
   //FIXME: Pronadji nacin da utvrdis da li je element uopste u korpi. Ako se ne nalazi, ne moze ni da se ukloni. Poruka.
   //if(!findInArray(product.proizvodId, shoppingCart, propertyName)){alert("Proizvod se ne nalazi u korpi"); return false;}
   for (var i in shoppingCart) {
@@ -582,7 +573,7 @@ function removeItem(element) {
   if (product.proizvodKolicina  != 1) {
     document.getElementById(kolicinaId).value = 1;
   }
-  if(shoppingCart.length == 0){alert("Korpa je prazna");redirect();}
+  //if(shoppingCart.length == 0){alert("Korpa je prazna");redirect();}
   //NOTE: Prikaz, koji su proizvodi u korpi radi pomoci.
   //  for (var j in shoppingCart) {
   //    document.getElementById("demo").innerHTML += j + "-" + shoppingCart[j].proizvodId + "-" + shoppingCart[j].proizvodCena + "-" + shoppingCart[j].proizvodKolicina + "-" + typeof shoppingCart[j].proizvodCena + "-" + shoppingCart.length + "<br>";
@@ -630,7 +621,20 @@ function showProductsInCart() {
   removeChildElements(divAddProduct);
 
   if(shoppingCart.length == 0 || shoppingCart.length == undefined){
-    alert("VAŠA KORPA JE PRAZNA"); redirect();
+    //alert("VAŠA KORPA JE PRAZNA"); redirect();
+
+      $("#dialog-message").dialog({
+        modal: true,
+        buttons: {
+          Ok: function() {
+            $( this ).dialog("close");
+            redirect();
+          }
+        }
+      });
+
+
+
 //    $.notify("VAŠA KORPA JE PRAZNA", {position:"top center", autoHide: false, clickToHide: false,  className: "warn"});
 
   }
@@ -656,7 +660,6 @@ function showProductsInCart() {
     document.getElementById('itemsInCart').innerHTML = "SADRŽAJ VAŠE KORPE ZA KUPOVINU";
 
   }
-
 
 }
 
@@ -738,12 +741,6 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   divColMd3.appendChild(buttonTagRemove);
 
 
-
-//    $("#P" + productId).notify(
-//      "I'm to the right of this box", { position:"right" }
-//);
-
-
   //uzmi kolicinu iz korpe
   //ProizvodID je P1, P2, etc. Napravi ga da ostane samo broj 1,2,3, ...
   //var id = shoppingCart[i].proizvodId;
@@ -758,6 +755,5 @@ function createProductInCart(imgPath, productPrice, productQuantity, productName
   $("#P" + productId).parent().notify(
     productQuantity , {position:"top left", autoHide: false, clickToHide: false, className: "success"}
   );
-
 
 }

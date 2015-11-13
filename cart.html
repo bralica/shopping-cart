@@ -14,12 +14,13 @@
   <title>Basic Shopping Card</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="projektat shopping cart">
+  <meta name="description" content="projekat shopping cart">
   <meta name="author" content="Vladimir Tesic">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/united.bootstrap-theme.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="css/style.css">
   <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script> -->
 
@@ -188,6 +189,12 @@
             </div>
 
           </div>
+          <div id="dialog-message" title="">
+            <p>
+              <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+              VAŠA KORPA ZA KUPOVINU JE PRAZNA!
+            </p>
+          </div>
 
         </div>
       </div>
@@ -200,10 +207,15 @@
       <script src="js/bootstrap.min.js"></script>
       <script src="js/notify.min.js"></script>
       <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      <script src="http//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
       <script src="js/cart.js"></script>
       <script>
         $("#fromDate").datepicker();
         $("#toDate").datepicker();
+
+
+
       </script>
 
     </div>
