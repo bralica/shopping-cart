@@ -139,6 +139,13 @@ p.product-date {
   border-radius: 10px;
 }
 a.btn-dodaj {
-  background-color: #6e160c;
+  background-color: #FD483A;
   color: #fff;
+  padding: 5px;
+}
+a.btn-dodaj:hover {
+  background-color: #FD483A;
+  color: #fff;
+  padding: 5px;
+  text-decoration: none;
 }
