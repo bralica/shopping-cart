@@ -39,7 +39,7 @@ function search(){
 
 }
 
-function getProductsBySearchValue(searchParam, categoryName, products)
+function getProductsBySearchValue(searchParam, categoryName, products){
 	var result = []
 	for petlja po products{
 		if(ime proizvoda sadrzi searchParam ili categoryName sadrzi searchParam){
@@ -50,7 +50,7 @@ function getProductsBySearchValue(searchParam, categoryName, products)
 	return result;
 }
 
-function getProductsByCategoryId(categoryId, products)
+function getProductsByCategoryId(categoryId, products){
 	var result = []
 	for petlja po products{
 		if(id kategorije jednak categoryId){

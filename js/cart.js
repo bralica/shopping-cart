@@ -24,6 +24,7 @@
 //TODO[x]: datepicker na formi za unos proizvoda, Proizvod je akuelan od - do datuma
 //TODO[x]: File upload koji ce da procita ime slike i da je prikaze.
 //TODO[x]: Better notifications for empty cart and no products in the cart
+//TODO: Search po kategorijama. Unapredi search za podskupovima.
 
 
 //---------- ONLOAD ----------
@@ -546,7 +547,22 @@ function removeItem(element) {
           $("#" + product.proizvodId).parent().remove();
         }
       } else {
-          alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
+
+       $("#dialog-message-quantity").dialog({
+        open: function(event, ui) {
+          $(".ui-dialog-titlebar-close").hide();
+        },
+        modal: true,
+        //autoOpen:false,
+        buttons: {
+          Ok: function() {
+            $(this).dialog("close");
+            //redirect();
+          }
+        }
+      });
+
+//          alert("Uneta kolicina je veca od broja proizvoda u korpi! Broj proizvoda u korpi je: " + shoppingCart[i].proizvodKolicina);
         }
     }  //else {
 //      alert("Proizvod se ne nalazi u korpi");

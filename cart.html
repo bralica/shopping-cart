@@ -189,14 +189,18 @@
             </div>
 
           </div>
-<!--          DIALOG -->
+<!--          DIALOG  KORPA JE PRAZNA-->
           <div id="dialog-message" title="obaveštenje!">
             <p class="lead">
-<!--              <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>-->
               U Vašoj korpi za kupovinu ne postoji ni jedan proizvod!
             </p>
           </div>
-
+          <!--  DIALOG  KORPA JE PRAZNA-->
+          <div id="dialog-message-quantity" title="obaveštenje!">
+            <p class="lead">
+               Uneta količina je veća od postojeće!
+            </p>
+          </div>
         </div>
       </div>
 
@@ -212,7 +216,12 @@
 
       <script src="js/cart.js"></script>
       <script>
-        $("#fromDate").datepicker();
+        $("#fromDate").datepicker({
+          onSelect: function(dateText) {
+
+          },
+          dateFormat: "dd.mm.yy";
+        });
         $("#toDate").datepicker();
 
 
