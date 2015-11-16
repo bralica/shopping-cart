@@ -1,5 +1,5 @@
 # shopping-cart 
-JavaScript aplikacija sa sledecim funkcionalnostima:
+### JavaScript aplikacija sa sledecim funkcionalnostima:
 
 - Dinamičko kreiranje HTML elemenata
 - Upravljanje dogadjajima na HTML strani
@@ -16,7 +16,7 @@ JavaScript aplikacija sa sledecim funkcionalnostima:
 - Logovanje
 - Prikaz izabranih proizvoda
 
-### Korisnici za logovanje
+###### Korisnici za logovanje
 
 - Nancy Davolio
 - Janet leverloing
