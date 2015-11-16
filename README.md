@@ -15,3 +15,9 @@ JavaScript aplikacija sa sledecim funkcionalnostima:
 - Filtriranje proizvoda
 - Logovanje
 - Prikaz izabranih proizvoda
+
+### Korisnici za logovanje
+
+- Nancy Davolio
+- Janet leverloing
+- Andrew Fuller
