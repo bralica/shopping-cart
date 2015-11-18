@@ -19,5 +19,5 @@
 ##### Korisnici za logovanje
 
 - Nancy Davolio
-- Janet leverloing
+- Janet Leverling
 - Andrew Fuller
