@@ -215,10 +215,10 @@ function getAndLoadCategories (url){
 
   var categories = getCategoryData(url).value;
   var output = "";
-  for (var category in categories) {
-
-    var categoryId   = categories[category].CategoryID;
-    var categoryName = categories[category].CategoryName;
+//  for (var category in categories) {
+//
+//    var categoryId   = categories[category].CategoryID;
+//    var categoryName = categories[category].CategoryName;
     //funkcija koja prikazuje kategorije, odnosno kreira select meni
 
   for (var category in categories){
@@ -244,15 +244,13 @@ function getAndLoadCategoriesInMenu (url) {
      output += '<li><a href="#" data-catId="' + categoryId + '">' + categoryName + '</a></li>';
 
   }
+
   var allCategories = 0;
   output += '<li><a href="#" data-catId="' + allCategories +'">Svi proizvodi</a></li>';
      var categoryName = categories[category].CategoryName;
      var categoryId   = categories[category].CategoryID;
      output += '<li><a href="#" id="' + categoryId + '"onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + categoryId + ')">' + categoryName + '</a></li>';
 
-  }
-  var allCategories = 0;
-  output += '<li><a href="#" id="' + allCategories +'" onclick="getData(\'http://services.odata.org/V3/Northwind/Northwind.svc/Products?$format=json\',' + allCategories + ')">Svi proizvodi</a></li>';
 
   return output;
 
