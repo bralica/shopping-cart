@@ -99,7 +99,6 @@ function Product (id, cena, kolicina){
   this.proizvodId   = id;//P1, P2, P3, ...
   this.proizvodCena = cena;
   this.proizvodKolicina = kolicina;
-
 }
 //Proizvod koji ide u globalni niz proizvodi
 function newProductInArray (categoryId, discontinued, productId, productName, quantityPerUnit, reorderLevel, supplierId, unitPrice, unitsInStock, unitsOnOrder, fromDate, toDate){
